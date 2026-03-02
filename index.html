@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ MAGIC ORB - ЭВОЛЮЦИЯ СФЕРЫ ✨</title>
+    <title>✨ MAGIC ORB - ЭПИЧЕСКАЯ ЭВОЛЮЦИЯ ✨</title>
     <style>
         * {
             margin: 0;
@@ -26,58 +26,124 @@
         .game-container {
             width: 100%;
             max-width: 450px;
-            background: rgba(10, 10, 25, 0.8);
+            background: rgba(10, 10, 25, 0.9);
             border-radius: 36px;
-            padding: 16px 12px;
+            padding: 20px 15px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,215,0,0.2) inset;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1);
-            transform: translateZ(0);
         }
         
-        /* Компактная верхняя панель */
-        .top-panel {
-            background: rgba(0,0,0,0.4);
-            border-radius: 24px;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,215,0,0.2);
-        }
-        
-        .stats-row {
+        /* Верхняя панель с авторизацией */
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
         }
         
-        .badge {
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
             padding: 6px 12px;
             border-radius: 30px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4b7bec, #a55eea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 16px;
+        }
+        
+        .user-name {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .rustore-badge {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 4px;
-            flex: 1;
-            justify-content: center;
+            cursor: pointer;
         }
         
-        .badge.level { background: linear-gradient(135deg, #ff4757, #ff6b81); color: white; }
-        .badge.gold { background: linear-gradient(135deg, #ffa502, #ffd700); color: #000; }
-        .badge.gems { background: linear-gradient(135deg, #a55eea, #8e44ad); color: white; }
-        
-        /* Компактные полосы прогресса */
-        .progress-row {
+        /* Ресурсы */
+        .resources {
             display: flex;
             gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .resource {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 10px;
+            display: flex;
             align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        
+        .resource-icon {
+            font-size: 24px;
+        }
+        
+        .resource-info {
+            flex: 1;
+        }
+        
+        .resource-label {
+            color: rgba(255,255,255,0.5);
+            font-size: 10px;
+        }
+        
+        .resource-value {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        /* Полосы прогресса */
+        .progress-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .progress-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            min-width: 45px;
         }
         
         .progress-container {
             flex: 1;
-            height: 16px;
+            height: 20px;
             background: rgba(255,255,255,0.1);
             border-radius: 12px;
             overflow: hidden;
@@ -101,39 +167,32 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: bold;
             text-shadow: 0 1px 2px black;
-            white-space: nowrap;
-        }
-        
-        .progress-label {
-            color: rgba(255,255,255,0.6);
-            font-size: 11px;
-            min-width: 45px;
         }
         
         /* Счет */
         .score-container {
             text-align: center;
-            margin: 8px 0;
+            margin: 10px 0;
         }
         
         .score-label {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
             font-size: 12px;
             letter-spacing: 2px;
         }
         
         .score-value {
             color: #ffd700;
-            font-size: 56px;
+            font-size: 64px;
             font-weight: bold;
-            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+            text-shadow: 0 0 30px rgba(255,215,0,0.5);
             line-height: 1.1;
         }
         
-        /* Сфера с эволюцией */
+        /* Сфера */
         .orb-container {
             display: flex;
             justify-content: center;
@@ -141,7 +200,8 @@
             margin: 15px 0;
             cursor: pointer;
             position: relative;
-            min-height: 240px;
+            min-height: 250px;
+            touch-action: manipulation;
         }
         
         .orb {
@@ -150,153 +210,258 @@
             border-radius: 50%;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
-            transform: translateZ(0);
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 50px currentColor;
         }
         
-        /* Эволюция сферы - 10 уровней */
-        .orb.evo-1 { background: radial-gradient(circle at 30% 30%, #4facfe, #0a2f6a); box-shadow: 0 0 40px #4facfe; }
-        .orb.evo-2 { background: radial-gradient(circle at 30% 30%, #6a5acd, #483d8b); box-shadow: 0 0 50px #6a5acd; }
-        .orb.evo-3 { background: radial-gradient(circle at 30% 30%, #ff69b4, #c71585); box-shadow: 0 0 60px #ff69b4; }
-        .orb.evo-4 { background: radial-gradient(circle at 30% 30%, #ffa07a, #cd5c5c); box-shadow: 0 0 70px #ffa07a; }
-        .orb.evo-5 { background: radial-gradient(circle at 30% 30%, #7b68ee, #4b0082); box-shadow: 0 0 80px #7b68ee; }
-        .orb.evo-6 { background: radial-gradient(circle at 30% 30%, #00fa9a, #2e8b57); box-shadow: 0 0 90px #00fa9a; }
-        .orb.evo-7 { background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); box-shadow: 0 0 100px gold; }
-        .orb.evo-8 { background: radial-gradient(circle at 30% 30%, #ff4500, #8b0000); box-shadow: 0 0 110px #ff4500; }
-        .orb.evo-9 { background: radial-gradient(circle at 30% 30%, #9370db, #663399); box-shadow: 0 0 120px #9370db; }
-        .orb.evo-10 { 
+        /* Каменная сфера - текстура камня */
+        .orb.evo-1 {
+            background: radial-gradient(circle at 30% 30%, #8e8e8e, #4a4a4a);
+            box-shadow: 0 0 40px #8e8e8e;
+            position: relative;
+            overflow: hidden;
+        }
+        .orb.evo-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px);
+            border-radius: 50%;
+        }
+        
+        /* Ледяная сфера - кристаллическая текстура */
+        .orb.evo-2 {
+            background: radial-gradient(circle at 30% 30%, #a8e6cf, #56ab2f);
+            box-shadow: 0 0 50px #a8e6cf;
+            position: relative;
+        }
+        .orb.evo-2::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 70%);
+            border-radius: 50%;
+        }
+        
+        /* Пламенная сфера - огненная текстура */
+        .orb.evo-3 {
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a);
+            box-shadow: 0 0 60px #ff6b6b;
+            animation: flamePulse 2s ease-in-out infinite;
+        }
+        .orb.evo-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent 70%);
+            border-radius: 50%;
+            animation: flameRotate 10s linear infinite;
+        }
+        
+        /* Магическая сфера - светящаяся */
+        .orb.evo-4 {
+            background: radial-gradient(circle at 30% 30%, #9775fa, #5f3dc4);
+            box-shadow: 0 0 70px #9775fa;
+            position: relative;
+        }
+        .orb.evo-4::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            right: -20%;
+            bottom: -20%;
+            background: repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0px, transparent 10px);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+        
+        /* Древняя сфера - руническая */
+        .orb.evo-5 {
+            background: radial-gradient(circle at 30% 30%, #b197fc, #6741d9);
+            box-shadow: 0 0 80px #b197fc;
+            position: relative;
+        }
+        .orb.evo-5::before {
+            content: '⚡✧✦✧⚡';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 40px;
+            white-space: nowrap;
+            animation: rotate 30s linear infinite;
+        }
+        
+        /* Мистическая сфера - туманная */
+        .orb.evo-6 {
+            background: radial-gradient(circle at 30% 30%, #e599f7, #862e9c);
+            box-shadow: 0 0 90px #e599f7;
+            position: relative;
+        }
+        .orb.evo-6::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -30%;
+            right: -30%;
+            bottom: -30%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2), transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+        
+        /* Божественная сфера - золотая */
+        .orb.evo-7 {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            box-shadow: 0 0 100px gold;
+            position: relative;
+        }
+        .orb.evo-7::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 10px, transparent 10px, transparent 20px);
+            border-radius: 50%;
+        }
+        
+        /* Космическая сфера - звездная */
+        .orb.evo-8 {
+            background: radial-gradient(circle at 30% 30%, #4a4e69, #1a1a2e);
+            box-shadow: 0 0 110px #4a4e69;
+            position: relative;
+        }
+        .orb.evo-8::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, white 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: 50%;
+        }
+        
+        /* Бесконечная сфера - бесконечный узор */
+        .orb.evo-9 {
+            background: radial-gradient(circle at 30% 30%, #c77dff, #6a0dad);
+            box-shadow: 0 0 120px #c77dff;
+            position: relative;
+        }
+        .orb.evo-9::before {
+            content: '∞';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 60px;
+            font-weight: bold;
+            animation: rotate 20s linear infinite;
+        }
+        
+        /* Абсолютная сфера - финальная */
+        .orb.evo-10 {
             background: radial-gradient(circle at 30% 30%, #ffffff, #f0e68c, #ffd700);
             box-shadow: 0 0 150px gold, 0 0 0 4px rgba(255,255,255,0.8) inset;
             animation: legendaryFloat 2s ease-in-out infinite;
+            position: relative;
+        }
+        .orb.evo-10::before {
+            content: '✦✧✦';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 50px;
+            text-shadow: 0 0 20px gold;
+            animation: rotate 10s linear infinite;
         }
         
-        /* Трещины для каждой стадии */
-        .orb::before, .orb::after {
+        /* Трещины - более реалистичные */
+        .orb.cracked-1::after {
             content: '';
             position: absolute;
-            background: rgba(255,255,255,0.4);
-            border-radius: 2px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .orb.cracked-1::before {
-            opacity: 0.3;
             top: 30%;
             left: 40%;
-            width: 15%;
+            width: 8%;
             height: 2px;
+            background: rgba(255,255,255,0.6);
             transform: rotate(45deg);
-            box-shadow: 0 0 8px white;
-        }
-        
-        .orb.cracked-2::before {
-            opacity: 0.4;
-            top: 25%;
-            left: 35%;
-            width: 20%;
-            height: 2px;
-            transform: rotate(30deg);
-            box-shadow: 0 0 10px white;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+            border-radius: 2px;
         }
         
         .orb.cracked-2::after {
-            opacity: 0.4;
-            top: 45%;
-            left: 30%;
-            width: 18%;
+            content: '';
+            position: absolute;
+            top: 25%;
+            left: 35%;
+            width: 12%;
             height: 2px;
-            transform: rotate(-15deg);
-            box-shadow: 0 0 10px white;
-        }
-        
-        .orb.cracked-3::before,
-        .orb.cracked-3::after {
-            opacity: 0.6;
+            background: rgba(255,255,255,0.7);
+            transform: rotate(30deg);
             box-shadow: 0 0 15px white;
+            border-radius: 2px;
         }
         
-        .orb.cracked-3::before {
+        .orb.cracked-3::after {
+            content: '';
+            position: absolute;
             top: 20%;
             left: 30%;
-            width: 25%;
+            width: 15%;
             height: 3px;
+            background: rgba(255,255,255,0.8);
             transform: rotate(45deg);
-        }
-        
-        .orb.cracked-3::after {
-            top: 35%;
-            left: 25%;
-            width: 22%;
-            height: 3px;
-            transform: rotate(-20deg);
-        }
-        
-        .orb.cracked-4::before,
-        .orb.cracked-4::after {
-            opacity: 0.8;
             box-shadow: 0 0 20px white;
-        }
-        
-        .orb.cracked-4::before {
-            top: 15%;
-            left: 20%;
-            width: 30%;
-            height: 4px;
-            transform: rotate(60deg);
+            border-radius: 3px;
         }
         
         .orb.cracked-4::after {
-            top: 40%;
-            left: 35%;
-            width: 28%;
-            height: 4px;
-            transform: rotate(-30deg);
-        }
-        
-        .orb.cracked-5::before,
-        .orb.cracked-5::after {
-            opacity: 1;
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 25%;
+            width: 18%;
+            height: 3px;
+            background: rgba(255,255,255,0.9);
+            transform: rotate(60deg);
             box-shadow: 0 0 25px white;
-        }
-        
-        .orb.cracked-5::before {
-            top: 10%;
-            left: 15%;
-            width: 35%;
-            height: 5px;
-            transform: rotate(75deg);
+            border-radius: 3px;
         }
         
         .orb.cracked-5::after {
-            top: 30%;
-            left: 40%;
-            width: 32%;
-            height: 5px;
-            transform: rotate(-45deg);
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 22%;
+            height: 4px;
+            background: rgba(255,255,255,1);
+            transform: rotate(75deg);
+            box-shadow: 0 0 30px white;
+            border-radius: 4px;
         }
         
-        /* Анимации разрушения */
-        .orb.shatter {
-            animation: shatter 0.5s ease-out forwards;
-        }
-        
-        @keyframes shatter {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; filter: brightness(2); }
-            100% { transform: scale(0); opacity: 0; }
-        }
-        
-        .orb.evolve {
-            animation: evolve 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        
-        @keyframes evolve {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.3) rotate(180deg); filter: brightness(2); }
-            100% { transform: scale(1) rotate(360deg); }
-        }
-        
+        /* Анимации */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -307,44 +472,78 @@
             50% { transform: translateY(-15px) scale(1.05); }
         }
         
+        @keyframes flamePulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        @keyframes flameRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes shatter {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; filter: brightness(2); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        
+        @keyframes evolve {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(180deg); filter: brightness(2); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        .orb.shatter {
+            animation: shatter 0.5s ease-out forwards;
+        }
+        
+        .orb.evolve {
+            animation: evolve 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
         /* Компактная статистика */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 4px;
-            margin: 10px 0;
-        }
-        
-        .stat-item {
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
             background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 6px 2px;
-            text-align: center;
-            border: 1px solid rgba(255,215,0,0.1);
+            border-radius: 20px;
+            padding: 8px;
+            margin: 15px 0;
         }
         
-        .stat-icon { font-size: 14px; margin-bottom: 2px; }
-        .stat-label { color: rgba(255,255,255,0.4); font-size: 8px; text-transform: uppercase; }
-        .stat-value { color: white; font-size: 11px; font-weight: bold; }
+        .stat-compact {
+            text-align: center;
+        }
+        
+        .stat-compact .icon { font-size: 18px; }
+        .stat-compact .value { color: white; font-weight: bold; font-size: 14px; }
+        .stat-compact .label { color: rgba(255,255,255,0.4); font-size: 8px; }
         
         /* Вкладки */
         .tabs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            display: flex;
             gap: 4px;
-            margin: 10px 0;
+            margin: 15px 0 8px;
         }
         
         .tab {
+            flex: 1;
             background: rgba(0,0,0,0.5);
             color: rgba(255,255,255,0.6);
             border: none;
-            padding: 8px 2px;
-            border-radius: 10px 10px 0 0;
-            font-size: 11px;
+            padding: 10px 2px;
+            border-radius: 12px 12px 0 0;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             border-bottom: 2px solid transparent;
+            transition: all 0.2s;
         }
         
         .tab.active {
@@ -357,53 +556,79 @@
         .panel {
             background: rgba(0,0,0,0.8);
             border-radius: 0 0 16px 16px;
-            padding: 12px;
+            padding: 15px;
             margin-bottom: 10px;
             border: 1px solid gold;
             border-top: none;
             display: none;
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
         }
         
         .panel.visible { display: block; }
-        .panel-title { color: gold; font-size: 16px; text-align: center; margin-bottom: 10px; }
+        .panel-title { color: gold; font-size: 16px; text-align: center; margin-bottom: 12px; }
         
         /* Предметы */
         .shop-item {
             background: rgba(255,255,255,0.05);
-            border-radius: 14px;
-            padding: 10px;
-            margin-bottom: 6px;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid rgba(255,215,0,0.2);
             cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .shop-item:active { background: rgba(255,215,0,0.1); transform: scale(0.99); }
-        .shop-item.premium { border-color: #ff00ff; box-shadow: 0 0 10px #ff00ff33; }
+        .shop-item:active {
+            background: rgba(255,215,0,0.1);
+            transform: scale(0.99);
+        }
         
-        .shop-item-info { display: flex; align-items: center; gap: 8px; }
-        .shop-item-icon { font-size: 24px; }
-        .shop-item-name { color: white; font-weight: bold; font-size: 13px; }
-        .shop-item-desc { color: rgba(255,255,255,0.4); font-size: 10px; }
+        .shop-item.premium { border-color: #ff00ff; }
+        
+        .shop-item-info { display: flex; align-items: center; gap: 10px; }
+        .shop-item-icon { font-size: 28px; }
+        .shop-item-name { color: white; font-weight: bold; font-size: 14px; }
+        .shop-item-desc { color: rgba(255,255,255,0.4); font-size: 11px; }
         .shop-item-price {
             background: linear-gradient(135deg, gold, #ffd700);
             color: black;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 12px;
         }
         .shop-item-price.gems { background: linear-gradient(135deg, #a55eea, #8e44ad); color: white; }
         
-        /* Кнопки */
+        /* Таланты */
+        .talent-tree {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .talent {
+            background: rgba(0,0,0,0.5);
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #4b7bec;
+            cursor: pointer;
+        }
+        
+        .talent.unlocked { border-color: gold; background: rgba(255,215,0,0.1); }
+        .talent-icon { font-size: 24px; }
+        .talent-name { color: white; font-size: 12px; font-weight: bold; }
+        .talent-level { color: #4b7bec; font-size: 10px; }
+        
+        /* Кнопки действий */
         .action-buttons {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
             margin-top: 10px;
         }
         
@@ -411,16 +636,16 @@
             background: linear-gradient(135deg, #4b7bec, #3867d6);
             border: none;
             color: white;
-            padding: 8px 2px;
+            padding: 10px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
         }
         
         .action-btn:active { transform: scale(0.96); }
-        .action-btn.premium { background: linear-gradient(135deg, #a55eea, #8e44ad); }
         .action-btn.event { background: linear-gradient(135deg, #ff4757, #ff6b81); }
         
         /* Уведомление */
@@ -431,36 +656,39 @@
             transform: translateX(-50%);
             background: linear-gradient(135deg, #26de81, #20bf6b);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 40px;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             z-index: 1000;
             display: none;
             border: 2px solid gold;
         }
         
-        /* Прогресс эволюции */
-        .evolution-progress {
+        /* Название эволюции */
+        .evolution-title {
             text-align: center;
+            color: gold;
+            font-size: 16px;
+            font-weight: bold;
             margin: 5px 0;
-            font-size: 12px;
-            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
         
-        .evolution-bar {
+        .evolution-progress {
             width: 100%;
-            height: 4px;
+            height: 6px;
             background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            margin-top: 2px;
+            border-radius: 3px;
+            margin: 5px 0 10px;
+            overflow: hidden;
         }
         
         .evolution-fill {
             height: 100%;
             background: linear-gradient(90deg, #4b7bec, gold);
-            border-radius: 2px;
+            border-radius: 3px;
             width: 0%;
             transition: width 0.2s;
         }
@@ -468,22 +696,51 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- Верхняя панель -->
-        <div class="top-panel">
-            <div class="stats-row">
-                <div class="badge level" id="levelDisplay">📊 1</div>
-                <div class="badge gold" id="goldDisplay">💰 0</div>
-                <div class="badge gems" id="gemsDisplay">💎 0</div>
+        <!-- Верхняя панель с авторизацией -->
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">Г</div>
+                <span class="user-name" id="userName">Гость</span>
             </div>
-            
+            <div class="rustore-badge" onclick="game.loginWithRuStore()">
+                <span>🔄</span> RuStore
+            </div>
+        </div>
+        
+        <!-- Ресурсы -->
+        <div class="resources">
+            <div class="resource">
+                <span class="resource-icon">💰</span>
+                <div class="resource-info">
+                    <div class="resource-label">Золото</div>
+                    <div class="resource-value" id="goldDisplay">0</div>
+                </div>
+            </div>
+            <div class="resource">
+                <span class="resource-icon">💎</span>
+                <div class="resource-info">
+                    <div class="resource-label">Кристаллы</div>
+                    <div class="resource-value" id="gemsDisplay">0</div>
+                </div>
+            </div>
+            <div class="resource">
+                <span class="resource-icon">📊</span>
+                <div class="resource-info">
+                    <div class="resource-label">Уровень</div>
+                    <div class="resource-value" id="levelDisplay">1</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Прогресс -->
+        <div class="progress-section">
             <div class="progress-row">
                 <span class="progress-label">Опыт</span>
                 <div class="progress-container">
                     <div class="progress-bar exp" id="expBar"></div>
-                    <span class="progress-text" id="expText">0/100</span>
+                    <span class="progress-text" id="expText">0/200</span>
                 </div>
             </div>
-            
             <div class="progress-row">
                 <span class="progress-label">Энергия</span>
                 <div class="progress-container">
@@ -500,46 +757,55 @@
         </div>
         
         <!-- Сфера -->
-        <div class="orb-container">
-            <div class="orb evo-1" id="orb" onclick="game.click()"></div>
+        <div class="orb-container" id="orbContainer" ontouchstart="game.click()" ontouchmove="game.handleMultiTouch(event)" ontouchend="game.endTouch()">
+            <div class="orb evo-1" id="orb"></div>
         </div>
+        
+        <!-- Название эволюции -->
+        <div class="evolution-title" id="evolutionName">Каменная сфера</div>
         
         <!-- Прогресс эволюции -->
         <div class="evolution-progress">
-            <span id="evoStage">Каменная сфера</span>
-            <div class="evolution-bar">
-                <div class="evolution-fill" id="evoBar" style="width: 0%"></div>
-            </div>
+            <div class="evolution-fill" id="evoBar"></div>
         </div>
         
         <!-- Компактная статистика -->
-        <div class="stats-grid">
-            <div class="stat-item"><div class="stat-icon">👆</div><div class="stat-label">СИЛА</div><div class="stat-value" id="statClick">1</div></div>
-            <div class="stat-item"><div class="stat-icon">⚡</div><div class="stat-label">МНОЖ</div><div class="stat-value" id="statMult">x1</div></div>
-            <div class="stat-item"><div class="stat-icon">🤖</div><div class="stat-label">АВТО</div><div class="stat-value" id="statAuto">0</div></div>
-            <div class="stat-item"><div class="stat-icon">🎯</div><div class="stat-label">КРИТ%</div><div class="stat-value" id="statCrit">2%</div></div>
-            <div class="stat-item"><div class="stat-icon">💥</div><div class="stat-label">КРИТx</div><div class="stat-value" id="statCritDmg">x2</div></div>
-            <div class="stat-item"><div class="stat-icon">🍀</div><div class="stat-label">УДАЧА</div><div class="stat-value" id="statLuck">0%</div></div>
+        <div class="stats-row">
+            <div class="stat-compact"><div class="icon">👆</div><div class="value" id="statClick">1</div><div class="label">СИЛА</div></div>
+            <div class="stat-compact"><div class="icon">⚡</div><div class="value" id="statMult">x1</div><div class="label">МНОЖ</div></div>
+            <div class="stat-compact"><div class="icon">🤖</div><div class="value" id="statAuto">0</div><div class="label">АВТО</div></div>
+            <div class="stat-compact"><div class="icon">🎯</div><div class="value" id="statCrit">2%</div><div class="label">КРИТ</div></div>
+            <div class="stat-compact"><div class="icon">💥</div><div class="value" id="statCritDmg">x2</div><div class="label">КРИТx</div></div>
+            <div class="stat-compact"><div class="icon">🍀</div><div class="value" id="statLuck">0%</div><div class="label">УДАЧА</div></div>
         </div>
         
         <!-- Вкладки -->
         <div class="tabs">
             <button class="tab active" onclick="game.showTab('shop')">🏪 МАГАЗИН</button>
             <button class="tab" onclick="game.showTab('talents')">⭐ ТАЛАНТЫ</button>
-            <button class="tab" onclick="game.showTab('premium')">💎 ПРЕМИУМ</button>
-            <button class="tab" onclick="game.showTab('stats')">📊 СТАТС</button>
+            <button class="tab" onclick="game.showTab('stats')">📊 СТАТИСТИКА</button>
         </div>
         
         <!-- Панели -->
-        <div class="panel visible" id="shopPanel"><div class="panel-title">🏪 МАГАЗИН</div><div id="shopItems"></div></div>
-        <div class="panel" id="talentsPanel"><div class="panel-title">⭐ ТАЛАНТЫ</div><div class="talent-tree" id="talentTree"></div><div style="text-align: center; color: #4b7bec; font-size: 11px;">Очков: <span id="talentPoints">0</span></div></div>
-        <div class="panel" id="premiumPanel"><div class="panel-title">💎 ПРЕМИУМ</div><div id="premiumItems"></div></div>
+        <div class="panel visible" id="shopPanel">
+            <div class="panel-title">🏪 МАГАЗИН</div>
+            <div id="shopItems"></div>
+        </div>
+        
+        <div class="panel" id="talentsPanel">
+            <div class="panel-title">⭐ ДЕРЕВО ТАЛАНТОВ</div>
+            <div class="talent-tree" id="talentTree"></div>
+            <div style="text-align: center; color: gold; margin-top: 8px; font-size: 12px;">
+                Очков талантов: <span id="talentPoints">0</span>
+            </div>
+        </div>
+        
         <div class="panel" id="statsPanel">
-            <div class="panel-title">📊 СТАТИСТИКА</div>
+            <div class="panel-title">📊 ПОДРОБНАЯ СТАТИСТИКА</div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; color: white; font-size: 11px;">
-                <div>👆 Кликов: <span id="statTotalClicks">0</span></div>
+                <div>👆 Всего кликов: <span id="statTotalClicks">0</span></div>
                 <div>💥 Критов: <span id="statTotalCrits">0</span></div>
-                <div>💰 Золота: <span id="statTotalGold">0</span></div>
+                <div>💰 Всего золота: <span id="statTotalGold">0</span></div>
                 <div>⚡ Энергии: <span id="statTotalEnergy">0</span></div>
                 <div>📈 Рекорд: <span id="statMaxScore">0</span></div>
                 <div>⏰ Время: <span id="statPlayTime">0</span>с</div>
@@ -548,11 +814,10 @@
             </div>
         </div>
         
-        <!-- Кнопки -->
+        <!-- Кнопки действий -->
         <div class="action-buttons">
-            <button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
             <button class="action-btn event" onclick="game.triggerRandomEvent()">🎲 СОБЫТИЕ</button>
-            <button class="action-btn premium" onclick="game.premiumSpin()">✨ СПИН</button>
+            <button class="action-btn" onclick="game.premiumSpin()">✨ ПРЕМИУМ СПИН</button>
         </div>
     </div>
     
@@ -561,10 +826,15 @@
     <script>
         class MagicOrbRPG {
             constructor() {
+                // Авторизация
+                this.userId = localStorage.getItem('userId') || 'guest_' + Math.random().toString(36).substr(2, 9);
+                this.userName = localStorage.getItem('userName') || 'Гость';
+                this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                
                 // Ресурсы
                 this.score = 0;
-                this.gold = 0;
-                this.gems = 0;
+                this.gold = 100; // Начальное золото для теста
+                this.gems = 10;
                 this.level = 1;
                 this.exp = 0;
                 this.expRequired = 200;
@@ -601,7 +871,7 @@
                     luck: [2,7,18,40,85,170]
                 };
                 
-                // Эволюция сферы
+                // Эволюция
                 this.evolutionStage = 1;
                 this.evolutionProgress = 0;
                 this.evolutionMax = 100;
@@ -612,12 +882,73 @@
                     "Абсолютная сфера"
                 ];
                 
+                // Мультитач
+                this.activeTouches = new Set();
+                this.lastTouchTime = 0;
+                this.touchDelay = 50; // Минимальная задержка между тапами в мс
+                
+                // КД
+                this.eventCooldown = 0;
+                this.eventMaxCooldown = 300;
+                this.spinCooldown = 0;
+                this.spinMaxCooldown = 60;
+                
+                // Загрузка и запуск
                 this.load();
                 this.startAutoClicker();
-                this.updateDisplay();
+                this.startTimeTracking();
+                this.updateUI();
                 this.renderShop();
                 this.renderTalents();
-                this.renderPremium();
+                
+                setInterval(() => this.updateCooldowns(), 1000);
+                this.updateUserInfo();
+                
+                // Автосохранение каждые 30 секунд
+                setInterval(() => this.save(), 30000);
+            }
+            
+            // RuStore авторизация
+            loginWithRuStore() {
+                if (window.Android && window.Android.login) {
+                    window.Android.login();
+                } else {
+                    // Тестовый режим
+                    this.userName = "RuStore User";
+                    this.userId = "rustore_" + Math.random().toString(36).substr(2, 9);
+                    this.isLoggedIn = true;
+                    this.gems += 10; // Бонус за авторизацию
+                    this.updateUserInfo();
+                    this.showNotification('✅ Авторизован в RuStore! +10💎');
+                    this.save();
+                }
+            }
+            
+            updateUserInfo() {
+                document.getElementById('userAvatar').textContent = this.userName[0].toUpperCase();
+                document.getElementById('userName').textContent = this.userName;
+            }
+            
+            // Мультитач
+            handleMultiTouch(event) {
+                event.preventDefault();
+                const now = Date.now();
+                
+                // Ограничиваем частоту тапов
+                if (now - this.lastTouchTime < this.touchDelay) return;
+                
+                // Обрабатываем каждый палец
+                for (let touch of event.touches) {
+                    if (!this.activeTouches.has(touch.identifier)) {
+                        this.activeTouches.add(touch.identifier);
+                        this.click();
+                    }
+                }
+                this.lastTouchTime = now;
+            }
+            
+            endTouch() {
+                this.activeTouches.clear();
             }
             
             click() {
@@ -629,7 +960,7 @@
                 this.energy--;
                 this.totalEnergy++;
                 
-                // Расчёт очков
+                // Расчёт очков с учётом талантов
                 let points = (this.clickPower + this.talents.power) * this.multiplier;
                 
                 // Крит
@@ -637,8 +968,8 @@
                 if (Math.random() * 100 < critChance) {
                     points *= this.critMultiplier;
                     this.totalCrits++;
-                    this.elements.orb.classList.add('critical');
-                    setTimeout(() => this.elements.orb.classList.remove('critical'), 100);
+                    document.getElementById('orb').classList.add('critical');
+                    setTimeout(() => document.getElementById('orb').classList.remove('critical'), 100);
                 }
                 
                 this.score += Math.floor(points);
@@ -664,7 +995,7 @@
                     this.evolveOrb();
                 }
                 
-                this.updateDisplay();
+                this.updateUI();
                 this.updateCracks();
             }
             
@@ -685,15 +1016,15 @@
                 this.evolutionProgress -= this.evolutionMax;
                 this.evolutionStage++;
                 
-                // Анимация разрушения
-                const orb = this.elements.orb;
+                // Анимация
+                const orb = document.getElementById('orb');
                 orb.classList.add('shatter');
                 
                 setTimeout(() => {
                     orb.classList.remove('shatter');
                     orb.classList.add('evolve');
                     
-                    // Меняем класс эволюции
+                    // Меняем класс
                     orb.className = orb.className.split(' ').filter(c => !c.startsWith('evo-')).join(' ');
                     orb.classList.add(`evo-${this.evolutionStage}`);
                     
@@ -701,10 +1032,11 @@
                 }, 500);
                 
                 this.showNotification(`✨ ЭВОЛЮЦИЯ! ${this.evolutionNames[this.evolutionStage-1]}`);
+                document.getElementById('evolutionName').textContent = this.evolutionNames[this.evolutionStage-1];
             }
             
             updateCracks() {
-                const orb = this.elements.orb;
+                const orb = document.getElementById('orb');
                 orb.classList.remove('cracked-1', 'cracked-2', 'cracked-3', 'cracked-4', 'cracked-5');
                 
                 const progress = this.evolutionProgress / this.evolutionMax;
@@ -728,24 +1060,106 @@
                     }
                     
                     this.playTime++;
-                    this.updateDisplay();
+                    this.updateUI();
                 }, 1000);
+            }
+            
+            startTimeTracking() {
+                setInterval(() => {
+                    this.save(); // Автосохранение
+                }, 60000);
+            }
+            
+            updateCooldowns() {
+                if (this.eventCooldown > 0) {
+                    this.eventCooldown--;
+                    const btn = document.querySelector('.action-btn.event');
+                    if (btn) {
+                        btn.textContent = this.eventCooldown > 0 ? 
+                            `⏳ ${Math.floor(this.eventCooldown/60)}:${(this.eventCooldown%60).toString().padStart(2,'0')}` : 
+                            '🎲 СОБЫТИЕ';
+                    }
+                }
+                
+                if (this.spinCooldown > 0) {
+                    this.spinCooldown--;
+                    const btn = document.querySelector('.action-btn:not(.event)');
+                    if (btn) {
+                        btn.textContent = this.spinCooldown > 0 ? 
+                            `⏳ ${Math.floor(this.spinCooldown/60)}:${(this.spinCooldown%60).toString().padStart(2,'0')}` : 
+                            '✨ ПРЕМИУМ СПИН';
+                    }
+                }
+            }
+            
+            triggerRandomEvent() {
+                if (this.eventCooldown > 0) {
+                    this.showNotification(`⏳ Подождите ${Math.floor(this.eventCooldown/60)}:${(this.eventCooldown%60).toString().padStart(2,'0')}`);
+                    return;
+                }
+                
+                const events = [
+                    { name:'💰 Монетный дождь', reward:() => this.gold += 50 },
+                    { name:'⚡ Восстановление', reward:() => this.energy = this.maxEnergy },
+                    { name:'💎 Кристалл', reward:() => this.gems++ }
+                ];
+                
+                const e = events[Math.floor(Math.random() * events.length)];
+                e.reward();
+                this.eventCooldown = this.eventMaxCooldown;
+                this.showNotification(`🎲 СОБЫТИЕ: ${e.name}`);
+                this.updateUI();
+            }
+            
+            premiumSpin() {
+                if (this.spinCooldown > 0) {
+                    this.showNotification(`⏳ Подождите ${Math.floor(this.spinCooldown/60)}:${(this.spinCooldown%60).toString().padStart(2,'0')}`);
+                    return;
+                }
+                
+                if (this.gems < 50) {
+                    this.showNotification('❌ Нужно 50 кристаллов!');
+                    return;
+                }
+                
+                this.gems -= 50;
+                this.spinCooldown = this.spinMaxCooldown;
+                
+                const rewards = [
+                    { name:'+500💰', act:() => this.gold += 500 },
+                    { name:'+200💰', act:() => this.gold += 200 },
+                    { name:'+10💎', act:() => this.gems += 10 },
+                    { name:'👆 +3 силы', act:() => this.clickPower += 3 },
+                    { name:'⚡ x2 на 5 мин', act:() => {
+                        this.multiplier *= 2;
+                        setTimeout(() => this.multiplier /= 2, 300000);
+                    }},
+                    { name:'🎯 +5% крита на 5 мин', act:() => {
+                        this.critChance += 5;
+                        setTimeout(() => this.critChance -= 5, 300000);
+                    }}
+                ];
+                
+                const r = rewards[Math.floor(Math.random() * rewards.length)];
+                r.act();
+                this.showNotification(`🎰 СПИН: ${r.name}`);
+                this.updateUI();
             }
             
             renderShop() {
                 const items = [
-                    { name:'👆 Сила', desc:'+1 к силе', price:100, id:'power' },
+                    { name:'👆 Сила клика', desc:'+1 к силе', price:100, id:'power' },
                     { name:'⚡ Множитель', desc:'x2 к кликам', price:1000, id:'mult' },
                     { name:'🤖 Автокликер', desc:'+1/сек', price:500, id:'auto' },
-                    { name:'🎯 Крит', desc:'+1%', price:800, id:'crit' },
+                    { name:'🎯 Шанс крита', desc:'+1% к криту', price:800, id:'crit' },
                     { name:'💥 Крит урон', desc:'+1 к множителю', price:1500, id:'critDmg' },
-                    { name:'🍀 Удача', desc:'+1%', price:600, id:'luck' }
+                    { name:'🍀 Удача', desc:'+1% к удаче', price:600, id:'luck' }
                 ];
                 
                 document.getElementById('shopItems').innerHTML = items.map(i => `
                     <div class="shop-item" onclick="game.buyItem('${i.id}', ${i.price})">
                         <div class="shop-item-info">
-                            <span class="shop-item-icon">${i.name}</span>
+                            <span class="shop-item-icon">${i.name.split(' ')[0]}</span>
                             <div>
                                 <div class="shop-item-name">${i.name}</div>
                                 <div class="shop-item-desc">${i.desc}</div>
@@ -757,7 +1171,10 @@
             }
             
             buyItem(id, price) {
-                if (this.gold < price) return this.showNotification(`❌ Нужно ${price} золота!`);
+                if (this.gold < price) {
+                    this.showNotification(`❌ Нужно ${price} золота!`);
+                    return;
+                }
                 
                 this.gold -= price;
                 switch(id) {
@@ -769,7 +1186,7 @@
                     case 'luck': this.luck++; break;
                 }
                 this.showNotification('✅ Покупка успешна!');
-                this.updateDisplay();
+                this.updateUI();
             }
             
             renderTalents() {
@@ -794,7 +1211,9 @@
                             <div class="talent-icon">${t.name.split(' ')[0]}</div>
                             <div class="talent-name">${t.name}</div>
                             <div class="talent-level">Ур. ${level}/${maxLevel}</div>
-                            <div style="color: ${nextPrice <= this.talentPoints ? '#4b7bec' : '#ff4757'};">${nextPrice}⭐</div>
+                            <div style="color: ${nextPrice !== 'MAX' && nextPrice <= this.talentPoints ? '#4b7bec' : '#ff4757'}; font-size: 11px;">
+                                ${nextPrice}⭐
+                            </div>
                         </div>
                     `;
                 }).join('');
@@ -802,139 +1221,112 @@
             
             upgradeTalent(id) {
                 const level = this.talents[id];
-                if (level >= this.talentPrices[id].length) return this.showNotification('⭐ Максимум!');
+                if (level >= this.talentPrices[id].length) {
+                    this.showNotification('⭐ Максимальный уровень!');
+                    return;
+                }
                 
                 const price = this.talentPrices[id][level];
-                if (this.talentPoints < price) return this.showNotification(`❌ Нужно ${price} очков!`);
+                if (this.talentPoints < price) {
+                    this.showNotification(`❌ Нужно ${price} очков талантов!`);
+                    return;
+                }
                 
                 this.talentPoints -= price;
                 this.talents[id]++;
                 this.showNotification(`⭐ Талант улучшен!`);
                 this.renderTalents();
-            }
-            
-            renderPremium() {
-                document.getElementById('premiumItems').innerHTML = `
-                    <div class="shop-item premium" onclick="game.buyPremium(50,99)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">50 кристаллов</div><div class="shop-item-desc">Базовый набор</div></div></div><div class="shop-item-price gems">99₽</div></div>
-                    <div class="shop-item premium" onclick="game.buyPremium(200,299)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">200 кристаллов</div><div class="shop-item-desc">Популярный набор</div></div></div><div class="shop-item-price gems">299₽</div></div>
-                    <div class="shop-item premium" onclick="game.buyPremium(1000,999)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">1000 кристаллов</div><div class="shop-item-desc">Лучшая цена</div></div></div><div class="shop-item-price gems">999₽</div></div>
-                `;
-            }
-            
-            buyPremium(amount, price) {
-                if (window.Android?.purchaseProduct) {
-                    window.Android.purchaseProduct(`crystals_${amount}`);
-                } else {
-                    this.gems += amount;
-                    this.showNotification(`💎 ТЕСТ: +${amount} кристаллов`);
-                }
-            }
-            
-            triggerRandomEvent() {
-                const events = [
-                    { name:'💰 Монетный дождь', reward:()=>this.gold+=50 },
-                    { name:'⚡ Восстановление', reward:()=>this.energy=this.maxEnergy },
-                    { name:'💎 Кристалл', reward:()=>this.gems++ }
-                ];
-                const e = events[Math.floor(Math.random()*events.length)];
-                e.reward();
-                this.showNotification(`🎲 СОБЫТИЕ: ${e.name}`);
-                this.updateDisplay();
-            }
-            
-            premiumSpin() {
-                if (this.gems < 50) return this.showNotification('❌ Нужно 50 кристаллов!');
-                this.gems -= 50;
-                const rewards = [
-                    { name:'+500💰', act:()=>this.gold+=500 },
-                    { name:'+200💰', act:()=>this.gold+=200 },
-                    { name:'+10💎', act:()=>this.gems+=10 },
-                    { name:'👆 +3 силы', act:()=>this.clickPower+=3 },
-                    { name:'⚡ x2 на 5 мин', act:()=>{
-                        this.multiplier*=2;
-                        setTimeout(()=>this.multiplier/=2,300000);
-                    }}
-                ];
-                const r = rewards[Math.floor(Math.random()*rewards.length)];
-                r.act();
-                this.showNotification(`🎰 СПИН: ${r.name}`);
-            }
-            
-            claimDaily() {
-                this.gold += 50;
-                this.gems++;
-                this.showNotification('🎁 Бонус получен!');
+                this.updateUI();
             }
             
             save() {
                 const data = {
-                    score:this.score, gold:this.gold, gems:this.gems, level:this.level,
-                    exp:this.exp, expRequired:this.expRequired, clickPower:this.clickPower,
-                    multiplier:this.multiplier, autoClicker:this.autoClicker,
-                    critChance:this.critChance, critMultiplier:this.critMultiplier,
-                    luck:this.luck, totalClicks:this.totalClicks, totalCrits:this.totalCrits,
-                    maxScore:this.maxScore, maxEnergy:this.maxEnergy, energy:this.energy,
-                    talentPoints:this.talentPoints, talents:this.talents,
-                    evolutionStage:this.evolutionStage, evolutionProgress:this.evolutionProgress
+                    userId: this.userId,
+                    userName: this.userName,
+                    isLoggedIn: this.isLoggedIn,
+                    score: this.score,
+                    gold: this.gold,
+                    gems: this.gems,
+                    level: this.level,
+                    exp: this.exp,
+                    expRequired: this.expRequired,
+                    clickPower: this.clickPower,
+                    multiplier: this.multiplier,
+                    autoClicker: this.autoClicker,
+                    critChance: this.critChance,
+                    critMultiplier: this.critMultiplier,
+                    luck: this.luck,
+                    totalClicks: this.totalClicks,
+                    totalCrits: this.totalCrits,
+                    totalGold: this.totalGold,
+                    maxScore: this.maxScore,
+                    maxEnergy: this.maxEnergy,
+                    energy: this.energy,
+                    talentPoints: this.talentPoints,
+                    talents: this.talents,
+                    evolutionStage: this.evolutionStage,
+                    evolutionProgress: this.evolutionProgress
                 };
-                localStorage.setItem('magicOrbRPG', JSON.stringify(data));
-                this.showNotification('💾 СОХРАНЕНО!');
+                
+                localStorage.setItem('magicOrbRPG_' + this.userId, JSON.stringify(data));
+                localStorage.setItem('userId', this.userId);
+                localStorage.setItem('userName', this.userName);
+                localStorage.setItem('isLoggedIn', this.isLoggedIn);
+                
+                if (this.isLoggedIn && window.Android && window.Android.saveData) {
+                    window.Android.saveData(JSON.stringify(data));
+                }
             }
             
             load() {
-                const save = localStorage.getItem('magicOrbRPG');
+                const save = localStorage.getItem('magicOrbRPG_' + this.userId);
                 if (save) {
                     try {
                         const data = JSON.parse(save);
                         Object.assign(this, data);
+                        document.getElementById('orb').className = `orb evo-${this.evolutionStage}`;
+                        document.getElementById('evolutionName').textContent = this.evolutionNames[this.evolutionStage-1];
                         this.showNotification('📂 ЗАГРУЖЕНО');
-                        this.elements.orb.className = `orb evo-${this.evolutionStage}`;
-                    } catch(e) { this.showNotification('✨ НОВАЯ ИГРА'); }
+                    } catch(e) {
+                        this.showNotification('✨ НОВАЯ ИГРА');
+                    }
                 }
             }
             
             showTab(tab) {
-                document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-                document.querySelectorAll('.panel').forEach(p=>p.classList.remove('visible'));
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
                 event.target.classList.add('active');
-                document.getElementById(tab+'Panel').classList.add('visible');
+                document.getElementById(tab + 'Panel').classList.add('visible');
             }
             
-            elements = {
-                get score() { return document.getElementById('scoreDisplay'); },
-                get gold() { return document.getElementById('goldDisplay'); },
-                get gems() { return document.getElementById('gemsDisplay'); },
-                get level() { return document.getElementById('levelDisplay'); },
-                get expBar() { return document.getElementById('expBar'); },
-                get expText() { return document.getElementById('expText'); },
-                get energyBar() { return document.getElementById('energyBar'); },
-                get energyText() { return document.getElementById('energyText'); },
-                get orb() { return document.getElementById('orb'); },
-                get evoStage() { return document.querySelector('.evolution-progress span'); },
-                get evoBar() { return document.getElementById('evoBar'); }
-            };
-            
-            updateDisplay() {
-                this.elements.score.textContent = Math.floor(this.score);
-                this.elements.gold.innerHTML = `💰 ${Math.floor(this.gold)}`;
-                this.elements.gems.innerHTML = `💎 ${Math.floor(this.gems)}`;
-                this.elements.level.innerHTML = `📊 ${this.level}`;
+            updateUI() {
+                // Основные ресурсы
+                document.getElementById('scoreDisplay').textContent = Math.floor(this.score);
+                document.getElementById('goldDisplay').textContent = Math.floor(this.gold);
+                document.getElementById('gemsDisplay').textContent = Math.floor(this.gems);
+                document.getElementById('levelDisplay').textContent = this.level;
                 
+                // Полосы прогресса
                 const expPercent = Math.min(100, (this.exp / this.expRequired) * 100);
-                this.elements.expBar.style.width = expPercent + '%';
-                this.elements.expText.textContent = `${Math.floor(this.exp)}/${this.expRequired}`;
+                document.getElementById('expBar').style.width = expPercent + '%';
+                document.getElementById('expText').textContent = `${Math.floor(this.exp)}/${this.expRequired}`;
                 
                 const energyPercent = (this.energy / this.maxEnergy) * 100;
-                this.elements.energyBar.style.width = energyPercent + '%';
-                this.elements.energyText.textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
+                document.getElementById('energyBar').style.width = energyPercent + '%';
+                document.getElementById('energyText').textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
                 
                 // Компактная статистика
                 document.getElementById('statClick').textContent = this.clickPower + this.talents.power;
                 document.getElementById('statMult').textContent = 'x' + this.multiplier;
                 document.getElementById('statAuto').textContent = this.autoClicker;
-                document.getElementById('statCrit').textContent = (this.critChance + this.talents.crit*0.5).toFixed(1) + '%';
+                document.getElementById('statCrit').textContent = (this.critChance + this.talents.crit * 0.5).toFixed(1) + '%';
                 document.getElementById('statCritDmg').textContent = 'x' + this.critMultiplier;
-                document.getElementById('statLuck').textContent = (this.luck + this.talents.luck*0.3).toFixed(1) + '%';
+                document.getElementById('statLuck').textContent = (this.luck + this.talents.luck * 0.3).toFixed(1) + '%';
+                
+                // Прогресс эволюции
+                const evoPercent = (this.evolutionProgress / this.evolutionMax) * 100;
+                document.getElementById('evoBar').style.width = evoPercent + '%';
                 
                 // Детальная статистика
                 document.getElementById('statTotalClicks').textContent = this.totalClicks;
@@ -944,26 +1336,22 @@
                 document.getElementById('statMaxScore').textContent = Math.floor(this.maxScore);
                 document.getElementById('statPlayTime').textContent = this.playTime;
                 document.getElementById('statLevel').textContent = this.level;
-                const acc = this.totalClicks > 0 ? (this.totalCrits/this.totalClicks*100).toFixed(1) : 0;
-                document.getElementById('statCritAccuracy').textContent = acc + '%';
                 
-                // Эволюция
-                this.elements.evoStage.textContent = this.evolutionNames[this.evolutionStage-1];
-                const evoPercent = (this.evolutionProgress / this.evolutionMax) * 100;
-                this.elements.evoBar.style.width = evoPercent + '%';
+                const acc = this.totalClicks > 0 ? (this.totalCrits / this.totalClicks * 100).toFixed(1) : 0;
+                document.getElementById('statCritAccuracy').textContent = acc + '%';
             }
             
             updateEnergyBar() {
                 const energyPercent = (this.energy / this.maxEnergy) * 100;
-                this.elements.energyBar.style.width = energyPercent + '%';
-                this.elements.energyText.textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
+                document.getElementById('energyBar').style.width = energyPercent + '%';
+                document.getElementById('energyText').textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
             }
             
             showNotification(text) {
                 const n = document.getElementById('notification');
                 n.textContent = text;
                 n.style.display = 'block';
-                setTimeout(()=>n.style.display='none', 2000);
+                setTimeout(() => n.style.display = 'none', 2000);
             }
         }
         
