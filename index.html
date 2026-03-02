@@ -459,7 +459,98 @@
         
         .evolution-fill {
             height: 100%;
-button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
+            background: linear-gradient(90deg, #4b7bec, gold);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Верхняя панель -->
+        <div class="top-panel">
+            <div class="stats-row">
+                <div class="badge level" id="levelDisplay">📊 1</div>
+                <div class="badge gold" id="goldDisplay">💰 0</div>
+                <div class="badge gems" id="gemsDisplay">💎 0</div>
+            </div>
+            
+            <div class="progress-row">
+                <span class="progress-label">Опыт</span>
+                <div class="progress-container">
+                    <div class="progress-bar exp" id="expBar"></div>
+                    <span class="progress-text" id="expText">0/100</span>
+                </div>
+            </div>
+            
+            <div class="progress-row">
+                <span class="progress-label">Энергия</span>
+                <div class="progress-container">
+                    <div class="progress-bar energy" id="energyBar"></div>
+                    <span class="progress-text" id="energyText">100/100</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Счет -->
+        <div class="score-container">
+            <div class="score-label">МАГИЧЕСКАЯ ЭНЕРГИЯ</div>
+            <div class="score-value" id="scoreDisplay">0</div>
+        </div>
+        
+        <!-- Сфера -->
+        <div class="orb-container">
+            <div class="orb evo-1" id="orb" onclick="game.click()"></div>
+        </div>
+        
+        <!-- Прогресс эволюции -->
+        <div class="evolution-progress">
+            <span id="evoStage">Каменная сфера</span>
+            <div class="evolution-bar">
+                <div class="evolution-fill" id="evoBar" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <!-- Компактная статистика -->
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-icon">👆</div><div class="stat-label">СИЛА</div><div class="stat-value" id="statClick">1</div></div>
+            <div class="stat-item"><div class="stat-icon">⚡</div><div class="stat-label">МНОЖ</div><div class="stat-value" id="statMult">x1</div></div>
+            <div class="stat-item"><div class="stat-icon">🤖</div><div class="stat-label">АВТО</div><div class="stat-value" id="statAuto">0</div></div>
+            <div class="stat-item"><div class="stat-icon">🎯</div><div class="stat-label">КРИТ%</div><div class="stat-value" id="statCrit">2%</div></div>
+            <div class="stat-item"><div class="stat-icon">💥</div><div class="stat-label">КРИТx</div><div class="stat-value" id="statCritDmg">x2</div></div>
+            <div class="stat-item"><div class="stat-icon">🍀</div><div class="stat-label">УДАЧА</div><div class="stat-value" id="statLuck">0%</div></div>
+        </div>
+        
+        <!-- Вкладки -->
+        <div class="tabs">
+            <button class="tab active" onclick="game.showTab('shop')">🏪 МАГАЗИН</button>
+            <button class="tab" onclick="game.showTab('talents')">⭐ ТАЛАНТЫ</button>
+            <button class="tab" onclick="game.showTab('premium')">💎 ПРЕМИУМ</button>
+            <button class="tab" onclick="game.showTab('stats')">📊 СТАТС</button>
+        </div>
+        
+        <!-- Панели -->
+        <div class="panel visible" id="shopPanel"><div class="panel-title">🏪 МАГАЗИН</div><div id="shopItems"></div></div>
+        <div class="panel" id="talentsPanel"><div class="panel-title">⭐ ТАЛАНТЫ</div><div class="talent-tree" id="talentTree"></div><div style="text-align: center; color: #4b7bec; font-size: 11px;">Очков: <span id="talentPoints">0</span></div></div>
+        <div class="panel" id="premiumPanel"><div class="panel-title">💎 ПРЕМИУМ</div><div id="premiumItems"></div></div>
+        <div class="panel" id="statsPanel">
+            <div class="panel-title">📊 СТАТИСТИКА</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; color: white; font-size: 11px;">
+                <div>👆 Кликов: <span id="statTotalClicks">0</span></div>
+                <div>💥 Критов: <span id="statTotalCrits">0</span></div>
+                <div>💰 Золота: <span id="statTotalGold">0</span></div>
+                <div>⚡ Энергии: <span id="statTotalEnergy">0</span></div>
+                <div>📈 Рекорд: <span id="statMaxScore">0</span></div>
+                <div>⏰ Время: <span id="statPlayTime">0</span>с</div>
+                <div>🏆 Уровень: <span id="statLevel">1</span></div>
+                <div>🎯 Точность: <span id="statCritAccuracy">0%</span></div>
+            </div>
+        </div>
+        
+        <!-- Кнопки -->
+        <div class="action-buttons">
+            <button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
             <button class="action-btn event" onclick="game.triggerRandomEvent()">🎲 СОБЫТИЕ</button>
             <button class="action-btn premium" onclick="game.premiumSpin()">✨ СПИН</button>
         </div>
@@ -468,7 +559,7 @@ button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
     <div class="notification" id="notification"></div>
     
     <script>
-        class  {
+        class MagicOrbRPG {
             constructor() {
                 // Ресурсы
                 this.score = 0;
@@ -477,4 +568,406 @@ button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
                 this.level = 1;
                 this.exp = 0;
                 this.expRequired = 200;
-                this.energy = 10
+                this.energy = 100;
+                this.maxEnergy = 100;
+                
+                // Характеристики
+                this.clickPower = 1;
+                this.multiplier = 1;
+                this.autoClicker = 0;
+                this.critChance = 2;
+                this.critMultiplier = 2;
+                this.luck = 0;
+                
+                // Статистика
+                this.totalClicks = 0;
+                this.totalCrits = 0;
+                this.totalGold = 0;
+                this.totalEnergy = 0;
+                this.maxScore = 0;
+                this.playTime = 0;
+                
+                // Таланты
+                this.talentPoints = 0;
+                this.talents = { power:0, crit:0, energy:0, gold:0, offline:0, luck:0 };
+                
+                // Цены талантов
+                this.talentPrices = {
+                    power: [1,3,7,15,30,60,120],
+                    crit: [2,5,12,25,50,100],
+                    energy: [1,4,10,20,40,80,160],
+                    gold: [2,6,15,35,70,140],
+                    offline: [3,8,20,45,90,180],
+                    luck: [2,7,18,40,85,170]
+                };
+                
+                // Эволюция сферы
+                this.evolutionStage = 1;
+                this.evolutionProgress = 0;
+                this.evolutionMax = 100;
+                this.evolutionNames = [
+                    "Каменная сфера", "Ледяная сфера", "Пламенная сфера",
+                    "Магическая сфера", "Древняя сфера", "Мистическая сфера",
+                    "Божественная сфера", "Космическая сфера", "Бесконечная сфера",
+                    "Абсолютная сфера"
+                ];
+                
+                this.load();
+                this.startAutoClicker();
+                this.updateDisplay();
+                this.renderShop();
+                this.renderTalents();
+                this.renderPremium();
+            }
+            
+            click() {
+                if (this.energy <= 0) {
+                    this.showNotification('⚡ Нет энергии!');
+                    return;
+                }
+                
+                this.energy--;
+                this.totalEnergy++;
+                
+                // Расчёт очков
+                let points = (this.clickPower + this.talents.power) * this.multiplier;
+                
+                // Крит
+                const critChance = this.critChance + this.talents.crit * 0.5;
+                if (Math.random() * 100 < critChance) {
+                    points *= this.critMultiplier;
+                    this.totalCrits++;
+                    this.elements.orb.classList.add('critical');
+                    setTimeout(() => this.elements.orb.classList.remove('critical'), 100);
+                }
+                
+                this.score += Math.floor(points);
+                this.totalClicks++;
+                
+                if (this.score > this.maxScore) this.maxScore = this.score;
+                
+                // Золото
+                const goldChance = 5 + this.luck + this.talents.gold * 0.3;
+                if (Math.random() * 100 < goldChance) {
+                    const goldFound = Math.floor(points * 0.2 * (1 + this.talents.gold * 0.003));
+                    this.gold += goldFound;
+                    this.totalGold += goldFound;
+                }
+                
+                // Опыт
+                this.exp += points / 25;
+                while (this.exp >= this.expRequired) this.levelUp();
+                
+                // Прогресс эволюции
+                this.evolutionProgress += points / 10;
+                if (this.evolutionProgress >= this.evolutionMax) {
+                    this.evolveOrb();
+                }
+                
+                this.updateDisplay();
+                this.updateCracks();
+            }
+            
+            levelUp() {
+                this.level++;
+                this.exp -= this.expRequired;
+                this.expRequired = Math.floor(200 * Math.pow(1.5, this.level - 1));
+                this.maxEnergy += 2;
+                this.energy = this.maxEnergy;
+                this.talentPoints++;
+                if (this.level % 10 === 0) this.gems++;
+                this.showNotification(`✨ УРОВЕНЬ ${this.level}!`);
+            }
+            
+            evolveOrb() {
+                if (this.evolutionStage >= 10) return;
+                
+                this.evolutionProgress -= this.evolutionMax;
+                this.evolutionStage++;
+                
+                // Анимация разрушения
+                const orb = this.elements.orb;
+                orb.classList.add('shatter');
+                
+                setTimeout(() => {
+                    orb.classList.remove('shatter');
+                    orb.classList.add('evolve');
+                    
+                    // Меняем класс эволюции
+                    orb.className = orb.className.split(' ').filter(c => !c.startsWith('evo-')).join(' ');
+                    orb.classList.add(`evo-${this.evolutionStage}`);
+                    
+                    setTimeout(() => orb.classList.remove('evolve'), 800);
+                }, 500);
+                
+                this.showNotification(`✨ ЭВОЛЮЦИЯ! ${this.evolutionNames[this.evolutionStage-1]}`);
+            }
+            
+            updateCracks() {
+                const orb = this.elements.orb;
+                orb.classList.remove('cracked-1', 'cracked-2', 'cracked-3', 'cracked-4', 'cracked-5');
+                
+                const progress = this.evolutionProgress / this.evolutionMax;
+                if (progress > 0.8) orb.classList.add('cracked-5');
+                else if (progress > 0.6) orb.classList.add('cracked-4');
+                else if (progress > 0.4) orb.classList.add('cracked-3');
+                else if (progress > 0.2) orb.classList.add('cracked-2');
+                else if (progress > 0.05) orb.classList.add('cracked-1');
+            }
+            
+            startAutoClicker() {
+                setInterval(() => {
+                    if (this.autoClicker > 0) {
+                        const offlineBonus = 1 + this.talents.offline * 0.2;
+                        this.score += Math.floor(this.clickPower * this.multiplier * this.autoClicker * offlineBonus);
+                    }
+                    
+                    if (this.energy < this.maxEnergy) {
+                        this.energy = Math.min(this.maxEnergy, this.energy + 0.5);
+                        this.updateEnergyBar();
+                    }
+                    
+                    this.playTime++;
+                    this.updateDisplay();
+                }, 1000);
+            }
+            
+            renderShop() {
+                const items = [
+                    { name:'👆 Сила', desc:'+1 к силе', price:100, id:'power' },
+                    { name:'⚡ Множитель', desc:'x2 к кликам', price:1000, id:'mult' },
+                    { name:'🤖 Автокликер', desc:'+1/сек', price:500, id:'auto' },
+                    { name:'🎯 Крит', desc:'+1%', price:800, id:'crit' },
+                    { name:'💥 Крит урон', desc:'+1 к множителю', price:1500, id:'critDmg' },
+                    { name:'🍀 Удача', desc:'+1%', price:600, id:'luck' }
+                ];
+                
+                document.getElementById('shopItems').innerHTML = items.map(i => `
+                    <div class="shop-item" onclick="game.buyItem('${i.id}', ${i.price})">
+                        <div class="shop-item-info">
+                            <span class="shop-item-icon">${i.name}</span>
+                            <div>
+                                <div class="shop-item-name">${i.name}</div>
+                                <div class="shop-item-desc">${i.desc}</div>
+                            </div>
+                        </div>
+                        <div class="shop-item-price">${i.price}💰</div>
+                    </div>
+                `).join('');
+            }
+            
+            buyItem(id, price) {
+                if (this.gold < price) return this.showNotification(`❌ Нужно ${price} золота!`);
+                
+                this.gold -= price;
+                switch(id) {
+                    case 'power': this.clickPower++; break;
+                    case 'mult': this.multiplier *= 2; break;
+                    case 'auto': this.autoClicker++; break;
+                    case 'crit': this.critChance++; break;
+                    case 'critDmg': this.critMultiplier++; break;
+                    case 'luck': this.luck++; break;
+                }
+                this.showNotification('✅ Покупка успешна!');
+                this.updateDisplay();
+            }
+            
+            renderTalents() {
+                const talents = [
+                    { id:'power', name:'👆 Сила', desc:'+1 к силе' },
+                    { id:'crit', name:'🎯 Крит', desc:'+0.5% к криту' },
+                    { id:'energy', name:'⚡ Энергия', desc:'+5 к макс энергии' },
+                    { id:'gold', name:'💰 Золото', desc:'+0.3% к золоту' },
+                    { id:'offline', name:'🤖 Офлайн', desc:'+20% к офлайн' },
+                    { id:'luck', name:'🍀 Удача', desc:'+0.3% к удаче' }
+                ];
+                
+                document.getElementById('talentPoints').textContent = this.talentPoints;
+                
+                document.getElementById('talentTree').innerHTML = talents.map(t => {
+                    const level = this.talents[t.id];
+                    const maxLevel = this.talentPrices[t.id].length;
+                    const nextPrice = level < maxLevel ? this.talentPrices[t.id][level] : 'MAX';
+                    
+                    return `
+                        <div class="talent ${level > 0 ? 'unlocked' : ''}" onclick="game.upgradeTalent('${t.id}')">
+                            <div class="talent-icon">${t.name.split(' ')[0]}</div>
+                            <div class="talent-name">${t.name}</div>
+                            <div class="talent-level">Ур. ${level}/${maxLevel}</div>
+                            <div style="color: ${nextPrice <= this.talentPoints ? '#4b7bec' : '#ff4757'};">${nextPrice}⭐</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            upgradeTalent(id) {
+                const level = this.talents[id];
+                if (level >= this.talentPrices[id].length) return this.showNotification('⭐ Максимум!');
+                
+                const price = this.talentPrices[id][level];
+                if (this.talentPoints < price) return this.showNotification(`❌ Нужно ${price} очков!`);
+                
+                this.talentPoints -= price;
+                this.talents[id]++;
+                this.showNotification(`⭐ Талант улучшен!`);
+                this.renderTalents();
+            }
+            
+            renderPremium() {
+                document.getElementById('premiumItems').innerHTML = `
+                    <div class="shop-item premium" onclick="game.buyPremium(50,99)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">50 кристаллов</div><div class="shop-item-desc">Базовый набор</div></div></div><div class="shop-item-price gems">99₽</div></div>
+                    <div class="shop-item premium" onclick="game.buyPremium(200,299)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">200 кристаллов</div><div class="shop-item-desc">Популярный набор</div></div></div><div class="shop-item-price gems">299₽</div></div>
+                    <div class="shop-item premium" onclick="game.buyPremium(1000,999)"><div class="shop-item-info"><span class="shop-item-icon">✨</span><div><div class="shop-item-name">1000 кристаллов</div><div class="shop-item-desc">Лучшая цена</div></div></div><div class="shop-item-price gems">999₽</div></div>
+                `;
+            }
+            
+            buyPremium(amount, price) {
+                if (window.Android?.purchaseProduct) {
+                    window.Android.purchaseProduct(`crystals_${amount}`);
+                } else {
+                    this.gems += amount;
+                    this.showNotification(`💎 ТЕСТ: +${amount} кристаллов`);
+                }
+            }
+            
+            triggerRandomEvent() {
+                const events = [
+                    { name:'💰 Монетный дождь', reward:()=>this.gold+=50 },
+                    { name:'⚡ Восстановление', reward:()=>this.energy=this.maxEnergy },
+                    { name:'💎 Кристалл', reward:()=>this.gems++ }
+                ];
+                const e = events[Math.floor(Math.random()*events.length)];
+                e.reward();
+                this.showNotification(`🎲 СОБЫТИЕ: ${e.name}`);
+                this.updateDisplay();
+            }
+            
+            premiumSpin() {
+                if (this.gems < 50) return this.showNotification('❌ Нужно 50 кристаллов!');
+                this.gems -= 50;
+                const rewards = [
+                    { name:'+500💰', act:()=>this.gold+=500 },
+                    { name:'+200💰', act:()=>this.gold+=200 },
+                    { name:'+10💎', act:()=>this.gems+=10 },
+                    { name:'👆 +3 силы', act:()=>this.clickPower+=3 },
+                    { name:'⚡ x2 на 5 мин', act:()=>{
+                        this.multiplier*=2;
+                        setTimeout(()=>this.multiplier/=2,300000);
+                    }}
+                ];
+                const r = rewards[Math.floor(Math.random()*rewards.length)];
+                r.act();
+                this.showNotification(`🎰 СПИН: ${r.name}`);
+            }
+            
+            claimDaily() {
+                this.gold += 50;
+                this.gems++;
+                this.showNotification('🎁 Бонус получен!');
+            }
+            
+            save() {
+                const data = {
+                    score:this.score, gold:this.gold, gems:this.gems, level:this.level,
+                    exp:this.exp, expRequired:this.expRequired, clickPower:this.clickPower,
+                    multiplier:this.multiplier, autoClicker:this.autoClicker,
+                    critChance:this.critChance, critMultiplier:this.critMultiplier,
+                    luck:this.luck, totalClicks:this.totalClicks, totalCrits:this.totalCrits,
+                    maxScore:this.maxScore, maxEnergy:this.maxEnergy, energy:this.energy,
+                    talentPoints:this.talentPoints, talents:this.talents,
+                    evolutionStage:this.evolutionStage, evolutionProgress:this.evolutionProgress
+                };
+                localStorage.setItem('magicOrbRPG', JSON.stringify(data));
+                this.showNotification('💾 СОХРАНЕНО!');
+            }
+            
+            load() {
+                const save = localStorage.getItem('magicOrbRPG');
+                if (save) {
+                    try {
+                        const data = JSON.parse(save);
+                        Object.assign(this, data);
+                        this.showNotification('📂 ЗАГРУЖЕНО');
+                        this.elements.orb.className = `orb evo-${this.evolutionStage}`;
+                    } catch(e) { this.showNotification('✨ НОВАЯ ИГРА'); }
+                }
+            }
+            
+            showTab(tab) {
+                document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p=>p.classList.remove('visible'));
+                event.target.classList.add('active');
+                document.getElementById(tab+'Panel').classList.add('visible');
+            }
+            
+            elements = {
+                get score() { return document.getElementById('scoreDisplay'); },
+                get gold() { return document.getElementById('goldDisplay'); },
+                get gems() { return document.getElementById('gemsDisplay'); },
+                get level() { return document.getElementById('levelDisplay'); },
+                get expBar() { return document.getElementById('expBar'); },
+                get expText() { return document.getElementById('expText'); },
+                get energyBar() { return document.getElementById('energyBar'); },
+                get energyText() { return document.getElementById('energyText'); },
+                get orb() { return document.getElementById('orb'); },
+                get evoStage() { return document.querySelector('.evolution-progress span'); },
+                get evoBar() { return document.getElementById('evoBar'); }
+            };
+            
+            updateDisplay() {
+                this.elements.score.textContent = Math.floor(this.score);
+                this.elements.gold.innerHTML = `💰 ${Math.floor(this.gold)}`;
+                this.elements.gems.innerHTML = `💎 ${Math.floor(this.gems)}`;
+                this.elements.level.innerHTML = `📊 ${this.level}`;
+                
+                const expPercent = Math.min(100, (this.exp / this.expRequired) * 100);
+                this.elements.expBar.style.width = expPercent + '%';
+                this.elements.expText.textContent = `${Math.floor(this.exp)}/${this.expRequired}`;
+                
+                const energyPercent = (this.energy / this.maxEnergy) * 100;
+                this.elements.energyBar.style.width = energyPercent + '%';
+                this.elements.energyText.textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
+                
+                // Компактная статистика
+                document.getElementById('statClick').textContent = this.clickPower + this.talents.power;
+                document.getElementById('statMult').textContent = 'x' + this.multiplier;
+                document.getElementById('statAuto').textContent = this.autoClicker;
+                document.getElementById('statCrit').textContent = (this.critChance + this.talents.crit*0.5).toFixed(1) + '%';
+                document.getElementById('statCritDmg').textContent = 'x' + this.critMultiplier;
+                document.getElementById('statLuck').textContent = (this.luck + this.talents.luck*0.3).toFixed(1) + '%';
+                
+                // Детальная статистика
+                document.getElementById('statTotalClicks').textContent = this.totalClicks;
+                document.getElementById('statTotalCrits').textContent = this.totalCrits;
+                document.getElementById('statTotalGold').textContent = this.totalGold;
+                document.getElementById('statTotalEnergy').textContent = Math.floor(this.totalEnergy);
+                document.getElementById('statMaxScore').textContent = Math.floor(this.maxScore);
+                document.getElementById('statPlayTime').textContent = this.playTime;
+                document.getElementById('statLevel').textContent = this.level;
+                const acc = this.totalClicks > 0 ? (this.totalCrits/this.totalClicks*100).toFixed(1) : 0;
+                document.getElementById('statCritAccuracy').textContent = acc + '%';
+                
+                // Эволюция
+                this.elements.evoStage.textContent = this.evolutionNames[this.evolutionStage-1];
+                const evoPercent = (this.evolutionProgress / this.evolutionMax) * 100;
+                this.elements.evoBar.style.width = evoPercent + '%';
+            }
+            
+            updateEnergyBar() {
+                const energyPercent = (this.energy / this.maxEnergy) * 100;
+                this.elements.energyBar.style.width = energyPercent + '%';
+                this.elements.energyText.textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
+            }
+            
+            showNotification(text) {
+                const n = document.getElementById('notification');
+                n.textContent = text;
+                n.style.display = 'block';
+                setTimeout(()=>n.style.display='none', 2000);
+            }
+        }
+        
+        const game = new MagicOrbRPG();
+    </script>
+</body>
+</html>
