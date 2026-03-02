@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>✨ MAGIC ORB RPG - ЭПИЧЕСКАЯ ПРОКАЧКА ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .game-container {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 40px;
+            padding: 20px 15px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(255, 215, 0, 0.3) inset;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Верхняя панель */
+        .top-panel {
+            background: linear-gradient(145deg, rgba(0,0,0,0.7), rgba(20,20,40,0.9));
+            border-radius: 25px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.6);
+            text-shadow: 1px 1px 2px black;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .gold-badge {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(247, 151, 30, 0.6);
+        }
+        
+        .gems-badge {
+            background: linear-gradient(135deg, #c31432, #240b36);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 15px rgba(195, 20, 50, 0.6);
+        }
+        
+        /* Полоса опыта */
+        .exp-bar-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 25px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .exp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00b09b, #96c93d, #00b09b);
+            background-size: 200% 100%;
+            animation: gradientMove 3s infinite;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 15px;
+        }
+        
+        .exp-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black;
+            z-index: 2;
+        }
+        
+        /* Полоса энергии */
+        .energy-bar-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(79, 172, 254, 0.5);
+        }
+        
+        .energy-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            width: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .energy-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
+        }
+        
+        /* Счет */
+        .score-container {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .score-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            color: gold;
+            font-size: 72px;
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4);
+            line-height: 1;
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 30px gold; }
+            50% { text-shadow: 0 0 50px gold, 0 0 30px orange; }
+            100% { text-shadow: 0 0 30px gold; }
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        /* Сфера */
+        .orb-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .orb {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #0a2f6a);
+            border-radius: 50%;
+            box-shadow: 0 0 60px #4facfe, 0 0 120px #0a2f6a, 0 0 0 4px rgba(255,255,255,0.3) inset;
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            position: relative;
+            animation: orbPulse 3s infinite;
+        }
+        
+        .orb::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 30%;
+            height: 30%;
+            background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0.1));
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+        
+        .orb::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            right: 10%;
+            width: 20%;
+            height: 20%;
+            background: radial-gradient(circle, rgba(255,255,255,0.5), transparent);
+            border-radius: 50%;
+        }
+        
+        .orb.critical {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            box-shadow: 0 0 80px gold, 0 0 160px #b8860b, 0 0 0 6px rgba(255,255,255,0.6) inset;
+            animation: orbCrit 0.5s;
+        }
+        
+        .orb.rage {
+            background: radial-gradient(circle at 30% 30%, #ff4444, #8b0000);
+            box-shadow: 0 0 80px #ff4444, 0 0 160px #8b0000, 0 0 0 8px rgba(255,0,0,0.6) inset;
+            animation: orbRage 0.5s infinite;
+        }
+        
+        .orb.legendary {
+            background: radial-gradient(circle at 30% 30%, #ff00ff, #4b0082);
+            box-shadow: 0 0 100px #ff00ff, 0 0 200px #4b0082, 0 0 0 10px rgba(255,255,255,0.8) inset;
+        }
+        
+        @keyframes orbPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 0 80px #4facfe; }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes orbCrit {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes orbRage {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.1); filter: brightness(1.5); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+        
+        /* Партиклы */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: particleFloat 1s ease-out forwards;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+        
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.3));
+            border-radius: 20px;
+            padding: 10px 5px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+        
+        .stat-icon {
+            font-size: 22px;
+            margin-bottom: 3px;
+            filter: drop-shadow(0 0 5px gold);
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        /* Вкладки */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin: 15px 0;
+        }
+        
+        .tab {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 12px 5px;
+            border-radius: 15px 15px 0 0;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            background: rgba(255, 215, 0, 0.2);
+            color: gold;
+            border-bottom: 3px solid gold;
+            transform: translateY(-2px);
+        }
+        
+        /* Панели */
+        .panel {
+            background: linear-gradient(145deg, rgba(0,0,0,0.8), rgba(20,20,40,0.9));
+            border-radius: 0 0 20px 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid gold;
+            border-top: none;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .panel.visible {
+            display: block;
+        }
+        
+        .panel-title {
+            color: gold;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* Магазин */
+        .shop-item {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.5));
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shop-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .shop-item:hover::before {
+            left: 100%;
+        }
+        
+        .shop-item.premium {
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 20px #ff00ff;
+        }
+        
+        .shop-item.legendary {
+            border: 2px solid gold;
+            box-shadow: 0 0 30px gold;
+        }
+        
+        .shop-item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .shop-item-icon {
+            font-size: 36px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .shop-item-name {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .shop-item-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+        
+        .shop-item-price {
+            background: linear-gradient(135deg, gold, #ffd700);
+            color: black;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        .shop-item-price.gems {
+            background: linear-gradient(135deg, #ff00ff, #c71585);
+            color: white;
+        }
+        
+        /* Ежедневное событие */
+        .daily-event {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            animation: eventPulse 2s infinite;
+            cursor: pointer;
+        }
+        
+        @keyframes eventPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px gold; }
+            100% { transform: scale(1); }
+        }
+        
+        .event-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px black;
+        }
+        
+        .event-desc {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 5px 0;
+        }
+        
+        .event-reward {
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 15px;
+            color: gold;
+            font-weight: bold;
+        }
+        
+        /* Таланты */
+        .talent-tree {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .talent {
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #4ecdc4;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .talent.unlocked {
+            border-color: gold;
+            background: rgba(255, 215, 0, 0.2);
+        }
+        
+        .talent-icon {
+            font-size: 30px;
+        }
+        
+        .talent-name {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .talent-level {
+            color: #4ecdc4;
+            font-size: 12px;
+        }
+        
+        /* Кнопки действий */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 12px 5px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .action-btn.premium {
+            background: linear-gradient(135deg, #ff00ff, #c71585);
+        }
+        
+        .action-btn.event {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            animation: eventBtnPulse 2s infinite;
+        }
+        
+        @keyframes eventBtnPulse {
+            0% { box-shadow: 0 0 20px #ff6b6b; }
+            50% { box-shadow: 0 0 40px #4ecdc4; }
+            100% { box-shadow: 0 0 20px #ff6b6b; }
+        }
+        
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 10px 30px rgba(0, 176, 155, 0.6);
+            z-index: 1000;
+            display: none;
+            animation: slideDown 0.3s ease;
+            border: 2px solid gold;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translate(-50%, -100%); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        
+        /* Офлайн прогресс */
+        .offline-progress {
+            background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: center;
+            border: 2px solid #4ecdc4;
+        }
+        
+        .offline-title {
+            color: #4ecdc4;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .offline-reward {
+            color: gold;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        /* Скролл */
+        .panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .panel::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .panel::-webkit-scrollbar-thumb {
+            background: gold;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Верхняя панель -->
+        <div class="top-panel">
+            <div class="stats-row">
+                <div class="level-badge" id="levelDisplay">📊 Ур. 1</div>
+                <div class="gold-badge" id="goldDisplay">💰 0</div>
+                <div class="gems-badge" id="gemsDisplay">💎 0</div>
+            </div>
+            
+            <!-- Полоса опыта -->
+            <div class="exp-bar-container">
+                <div class="exp-bar" id="expBar" style="width: 0%"></div>
+                <div class="exp-text" id="expText">0/100</div>
+            </div>
+            
+            <!-- Полоса энергии -->
+            <div class="energy-bar-container">
+                <div class="energy-bar" id="energyBar" style="width: 100%"></div>
+                <div class="energy-text" id="energyText">100/100</div>
+            </div>
+        </div>
+        
+        <!-- Офлайн прогресс (появляется после возвращения) -->
+        <div class="offline-progress" id="offlineProgress" style="display: none;">
+            <div class="offline-title">⏰ ВАС НЕ БЫЛО</div>
+            <div class="offline-reward" id="offlineReward">+0</div>
+            <button class="action-btn" onclick="game.claimOffline()">ЗАБРАТЬ</button>
+        </div>
+        
+        <!-- Ежедневное событие -->
+        <div class="daily-event" id="dailyEvent" onclick="game.claimDaily()">
+            <div class="event-title" id="eventTitle">🎁 ЕЖЕДНЕВНЫЙ БОНУС</div>
+            <div class="event-desc" id="eventDesc">Заходите каждый день!</div>
+            <div class="event-reward" id="eventReward">+100💰 +5💎</div>
+        </div>
+        
+        <!-- Счет -->
+        <div class="score-container">
+            <div class="score-label">МАГИЧЕСКАЯ ЭНЕРГИЯ</div>
+            <div class="score-value" id="scoreDisplay">0</div>
+        </div>
+        
+        <!-- Сфера -->
+        <div class="orb-container">
+            <div class="orb" id="orb" onclick="game.click()"></div>
+        </div>
+        
+        <!-- Основные статы -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👆</div>
+                <div class="stat-label">СИЛА КЛИКА</div>
+                <div class="stat-value" id="clickPowerDisplay">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-label">МНОЖИТЕЛЬ</div>
+                <div class="stat-value" id="multiplierDisplay">x1</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🤖</div>
+                <div class="stat-label">ОФЛАЙН КЛИК</div>
+                <div class="stat-value" id="autoClickerDisplay">0/с</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-label">КРИТ ШАНС</div>
+                <div class="stat-value" id="critDisplay">5%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💥</div>
+                <div class="stat-label">КРИТ УРОН</div>
+                <div class="stat-value" id="critDamageDisplay">x3</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🍀</div>
+                <div class="stat-label">УДАЧА</div>
+                <div class="stat-value" id="luckDisplay">0%</div>
+            </div>
+        </div>
+        
+        <!-- Вкладки -->
+        <div class="tabs">
+            <button class="tab active" onclick="game.showTab('shop')">🏪 МАГАЗИН</button>
+            <button class="tab" onclick="game.showTab('talents')">⭐ ТАЛАНТЫ</button>
+            <button class="tab" onclick="game.showTab('premium')">💎 ПРЕМИУМ</button>
+            <button class="tab" onclick="game.showTab('stats')">📊 СТАТИСТИКА</button>
+        </div>
+        
+        <!-- Панель магазина -->
+        <div class="panel visible" id="shopPanel">
+            <div class="panel-title">🏪 МАГАЗИН УЛУЧШЕНИЙ</div>
+            <div id="shopItems"></div>
+        </div>
+        
+        <!-- Панель талантов -->
+        <div class="panel" id="talentsPanel">
+            <div class="panel-title">⭐ ДЕРЕВО ТАЛАНТОВ</div>
+            <div class="talent-tree" id="talentTree"></div>
+            <div style="text-align: center; margin-top: 10px; color: #4ecdc4;">Очков талантов: <span id="talentPoints">0</span></div>
+        </div>
+        
+        <!-- Панель премиум -->
+        <div class="panel" id="premiumPanel">
+            <div class="panel-title">💎 ПРЕМИУМ МАГАЗИН</div>
+            <div id="premiumItems"></div>
+        </div>
+        
+        <!-- Панель статистики -->
+        <div class="panel" id="statsPanel">
+            <div class="panel-title">📊 ПОДРОБНАЯ СТАТИСТИКА</div>
+            <div style="color: white;">
+                <p>👆 Всего кликов: <span id="statTotalClicks">0</span></p>
+                <p>💥 Критических ударов: <span id="statTotalCrits">0</span></p>
+                <p>💰 Всего золота: <span id="statTotalGold">0</span></p>
+                <p>⚡ Потрачено энергии: <span id="statTotalEnergy">0</span></p>
+                <p>📈 Макс. счет: <span id="statMaxScore">0</span></p>
+                <p>⏰ Время в игре: <span id="statPlayTime">0</span> сек</p>
+                <p>🏆 Уровень: <span id="statLevel">1</span></p>
+                <p>🎯 Точность крита: <span id="statCritAccuracy">0%</span></p>
+            </div>
+        </div>
+        
+        <!-- Кнопки действий -->
+        <div class="action-buttons">
+            <button class="action-btn" onclick="game.save()">💾 СОХРАНИТЬ</button>
+            <button class="action-btn event" onclick="game.triggerRandomEvent()">🎲 СОБЫТИЕ</button>
+            <button class="action-btn premium" onclick="game.premiumSpin()">✨ ПРЕМИУМ СПИН</button>
+        </div>
+    </div>
+    
+    <!-- Уведомление -->
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        class MagicOrbRPG {
+            constructor() {
+                // Основные ресурсы
+                this.score = 0;
+                this.gold = 0;
+                this.gems = 10; // Начальные кристаллы
+                this.level = 1;
+                this.exp = 0;
+                this.expToNext = 100;
+                this.energy = 100;
+                this.maxEnergy = 100;
+                
+                // Характеристики
+                this.clickPower = 1;
+                this.multiplier = 1;
+                this.autoClicker = 0;
+                this.critChance = 5;
+                this.critMultiplier = 3;
+                this.luck = 0;
+                
+                // Статистика
+                this.totalClicks = 0;
+                this.totalCrits = 0;
+                this.totalGold = 0;
+                this.totalEnergy = 0;
+                this.maxScore = 0;
+                this.playTime = 0;
+                this.lastSave = Date.now();
+                
+                // Таланты
+                this.talentPoints = 0;
+                this.talents = {
+                    powerMaster: 0,     // Увеличение силы
+                    critMaster: 0,      // Увеличение шанса крита
+                    energyMaster: 0,    // Увеличение энергии
+                    goldMaster: 0,       // Увеличение золота
+                    offlineMaster: 0,    // Усиление офлайн клика
+                    luckMaster: 0        // Увеличение удачи
+                };
+                
+                // Состояния
+                this.shopVisible = true;
+                this.currentTab = 'shop';
+                this.rageMode = false;
+                this.rageTimer = 0;
+                this.legendaryMode = false;
+                this.dailyStreak = 0;
+                this.lastDaily = null;
+                
+                // Магазин (обычный)
+                this.shopItems = [
+                    { id: 1, name: '👆 Сила клика', desc: 'Увеличивает базовый урон', price: 50, type: 'click', value: 1, icon: '👆', maxLevel: 100 },
+                    { id: 2, name: '🤖 Офлайн кликер', desc: 'Кликает каждую секунду', price: 100, type: 'auto', value: 1, icon: '🤖', maxLevel: 50 },
+                    { id: 3, name: '🎯 Шанс крита', desc: '+5% к шансу крита', price: 300, type: 'crit', value: 5, icon: '🎯', maxLevel: 20 },
+                    { id: 4, name: '💥 Крит урон', desc: 'x2 к множителю крита', price: 500, type: 'critDamage', value: 1, icon: '💥', maxLevel: 5 },
+                    { id: 5, name: '⚡ Множитель', desc: 'x2 ко всем кликам', price: 1000, type: 'mult', value: 2, icon: '⚡', maxLevel: 10 },
+                    { id: 6, name: '💎 Макс энергия', desc: '+10 к энергии', price: 150, type: 'energy', value: 10, icon: '💎', maxLevel: 20 },
+                    { id: 7, name: '🍀 Удача', desc: '+2% к шансу событий', price: 400, type: 'luck', value: 2, icon: '🍀', maxLevel: 25 }
+                ];
+                
+                // Премиум магазин (за кристаллы)
+                this.premiumItems = [
+                    { id: 101, name: '✨ Множитель x10', desc: 'x10 на 5 минут', price: 50, type: 'tempMult', value: 10, icon: '✨' },
+                    { id: 102, name: '🔥 Ярость', desc: 'x5 и крит 100% на 30 сек', price: 30, type: 'tempRage', value: 5, icon: '🔥' },
+                    { id: 103, name: '👑 Легендарный круг', desc: 'Изменяет вид сферы', price: 100, type: 'skin', value: 'legendary', icon: '👑' },
+                    { id: 104, name: '💎 Сундук с золотом', desc: '+1000 золота', price: 80, type: 'gold', value: 1000, icon: '💎' },
+                    { id: 105, name: '⚡ Бесконечная энергия', desc: 'Энергия не тратится 1 мин', price: 60, type: 'tempInfinite', value: 60, icon: '⚡' },
+                    { id: 106, name: '🎰 Ультимативный спин', desc: 'Случайный предмет', price: 200, type: 'mystery', value: 1, icon: '🎰' }
+                ];
+                
+                // Дерево талантов
+                this.talentPrices = {
+                    powerMaster: [1, 2, 3, 5, 8],
+                    critMaster: [1, 2, 4, 6, 10],
+                    energyMaster: [1, 1, 2, 3, 5],
+                    goldMaster: [1, 2, 3, 5, 8],
+                    offlineMaster: [2, 3, 5, 8, 13],
+                    luckMaster: [1, 2, 4, 7, 11]
+                };
+                
+                this.load();
+                this.startAutoClicker();
+                this.startTimeTracking();
+                this.checkDaily();
+                this.updateDisplay();
+                this.renderShop();
+                this.renderPremium();
+                this.renderTalents();
+            }
+            
+            click() {
+                if (this.energy <= 0 && !this.infiniteEnergy) {
+                    this.showNotification('⚡ Нет энергии! Ждите восстановления');
+                    return;
+                }
+                
+                if (!this.infiniteEnergy) {
+                    this.energy--;
+                    this.totalEnergy++;
+                }
+                
+                let points = this.clickPower * this.multiplier;
+                
+                // Критический удар
+                const isCrit = Math.random() * 100 < (this.critChance + this.luck / 2);
+                if (isCrit) {
+                    points *= this.critMultiplier;
+                    this.totalCrits++;
+                    document.getElementById('orb').classList.add('critical');
+                    setTimeout(() => document.getElementById('orb').classList.remove('critical'), 200);
+                    this.createParticles('gold');
+                } else {
+                    document.getElementById('orb').classList.remove('critical');
+                }
+                
+                // Режим ярости
+                if (this.rageMode) {
+                    points *= this.rageMultiplier || 2;
+                }
+                
+                // Легендарный режим
+                if (this.legendaryMode) {
+                    points *= 3;
+                }
+                
+                this.score += points;
+                this.totalClicks++;
+                
+                // Обновление максимального счета
+                if (this.score > this.maxScore) {
+                    this.maxScore = this.score;
+                }
+                
+                // Шанс на золото (базовый 20% + удача)
+                if (Math.random() * 100 < (20 + this.luck)) {
+                    const goldFound = Math.floor(points * (0.5 + this.luck / 100));
+                    this.gold += goldFound;
+                    this.totalGold += goldFound;
+                    this.createParticles('gold');
+                }
+                
+                // Шанс на кристаллы (1% + удача/10)
+                if (Math.random() * 100 < (1 + this.luck / 10)) {
+                    const gemsFound = 1 + Math.floor(Math.random() * 3);
+                    this.gems += gemsFound;
+                    this.showNotification(`💎 +${gemsFound} кристаллов!`);
+                }
+                
+                // Опыт
+                this.exp += points / 10;
+                while (this.exp >= this.expToNext && this.level < 1000) {
+                    this.levelUp();
+                }
+                
+                // Редкий шанс на особые события (0.1%)
+                if (Math.random() < 0.001) {
+                    this.triggerLegendaryEvent();
+                }
+                
+                this.updateDisplay();
+            }
+            
+            levelUp() {
+                this.level++;
+                this.exp -= this.expToNext;
+                this.expToNext = Math.floor(this.expToNext * 1.3);
+                this.maxEnergy += 5;
+                this.energy = this.maxEnergy;
+                this.talentPoints++;
+                this.showNotification(`✨ УРОВЕНЬ ${this.level}! +1 талант ✨`);
+                
+                // Бонус каждые 10 уровней
+                if (this.level % 10 === 0) {
+                    this.gems += 10;
+                    this.showNotification(`💎 Бонус: +10 кристаллов!`);
+                }
+            }
+            
+            startAutoClicker() {
+                setInterval(() => {
+                    if (this.autoClicker > 0) {
+                        for (let i = 0; i < this.autoClicker; i++) {
+                            this.score += this.clickPower * this.multiplier * (1 + this.talents.offlineMaster * 0.1);
+                        }
+                        this.updateDisplay();
+                    }
+                    
+                    // Восстановление энергии
+                    if (this.energy < this.maxEnergy) {
+                        this.energy = Math.min(this.maxEnergy, this.energy + 1 + this.talents.energyMaster * 0.2);
+                        this.updateDisplay();
+                    }
+                    
+                    // Таймеры режимов
+                    if (this.rageMode) {
+                        this.rageTimer--;
+                        if (this.rageTimer <= 0) {
+                            this.rageMode = false;
+                            document.getElementById('orb').classList.remove('rage');
+                        }
+                    }
+                    
+                    if (this.legendaryMode) {
+                        this.legendaryTimer--;
+                        if (this.legendaryTimer <= 0) {
+                            this.legendaryMode = false;
+                            document.getElementById('orb').classList.remove('legendary');
+                        }
+                    }
+                    
+                    if (this.infiniteEnergy) {
+                        this.infiniteTimer--;
+                        if (this.infiniteTimer <= 0) {
+                            this.infiniteEnergy = false;
+                        }
+                    }
+                    
+                    // Время игры
+                    this.playTime++;
+                }, 1000);
+            }
+            
+            startTimeTracking() {
+                setInterval(() => {
+                    const now = Date.now();
+                    const diff = now - this.lastSave;
+                    
+                    // Офлайн прогресс (если был выход)
+                    if (diff > 60000) { // Больше минуты
+                        const minutes = Math.floor(diff / 60000);
+                        const offlineReward = this.autoClicker * this.clickPower * this.multiplier * minutes * 30;
+                        document.getElementById('offlineReward').textContent = `+${Math.floor(offlineReward)} очков`;
+                        document.getElementById('offlineProgress').style.display = 'block';
+                    }
+                    
+                    this.lastSave = now;
+                }, 10000);
+            }
+            
+            claimOffline() {
+                const reward = parseInt(document.getElementById('offlineReward').textContent.replace(/[^0-9]/g, ''));
+                this.score += reward;
+                document.getElementById('offlineProgress').style.display = 'none';
+                this.showNotification(`⏰ Получено: +${reward}`);
+                this.updateDisplay();
+            }
+            
+            createParticles(color) {
+                const orb = document.getElementById('orb');
+                for (let i = 0; i < 5; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.cssText = `
+                        left: ${orb.offsetLeft + orb.offsetWidth/2}px;
+                        top: ${orb.offsetTop + orb.offsetHeight/2}px;
+                        width: 10px;
+                        height: 10px;
+                        background: ${color === 'gold' ? 'gold' : '#4facfe'};
+                        border-radius: 50%;
+                        --dx: ${(Math.random() - 0.5) * 100}px;
+                        --dy: ${(Math.random() - 0.5) * 100}px;
+                    `;
+                    document.body.appendChild(particle);
+                    setTimeout(() => particle.remove(), 1000);
+                }
+            }
+            
+            triggerRandomEvent() {
+                const events = [
+                    { name: '💰 Золотой дождь', desc: '+500 золота', reward: () => { this.gold += 500; } },
+                    { name: '⚡ Энергетический всплеск', desc: '+100 энергии', reward: () => { this.energy = Math.min(this.maxEnergy, this.energy + 100); } },
+                    { name: '🎯 Удача крита', desc: '+20% крита на 30 сек', reward: () => { this.critChance += 20; setTimeout(() => this.critChance -= 20, 30000); } },
+                    { name: '✨ Кристальная удача', desc: '+10 кристаллов', reward: () => { this.gems += 10; } },
+                    { name: '⚡ Ускорение', desc: 'x2 к офлайн клику на 1 мин', reward: () => { this.autoClicker *= 2; setTimeout(() => this.autoClicker /= 2, 60000); } }
+                ];
+                
+                const event = events[Math.floor(Math.random() * events.length)];
+                event.reward();
+                this.showNotification(`🎲 СОБЫТИЕ: ${event.name}\n${event.desc}`);
+                this.updateDisplay();
+            }
+            
+            triggerLegendaryEvent() {
+                this.legendaryMode = true;
+                this.legendaryTimer = 30;
+                document.getElementById('orb').classList.add('legendary');
+                this.showNotification('👑 ЛЕГЕНДАРНОЕ СОБЫТИЕ! x3 на 30 сек');
+            }
+            
+            buyItem(item) {
+                if (this.gold >= item.price) {
+                    this.gold -= item.price;
+                    
+                    switch(item.type) {
+                        case 'click':
+                            this.clickPower += item.value;
+                            break;
+                        case 'auto':
+                            this.autoClicker += item.value;
+                            break;
+                        case 'crit':
+                            this.critChance += item.value;
+                            break;
+                        case 'critDamage':
+                            this.critMultiplier += item.value;
+                            break;
+                        case 'mult':
+                            this.multiplier *= item.value;
+                            break;
+                        case 'energy':
+                            this.maxEnergy += item.value;
+                            this.energy += item.value;
+                            break;
+                        case 'luck':
+                            this.luck += item.value;
+                            break;
+                    }
+                    
+                    this.showNotification(`✅ Куплено: ${item.name}`);
+                    this.updateDisplay();
+                    this.renderShop();
+                } else {
+                    this.showNotification('❌ Не хватает золота!');
+                }
+            }
+            
+            buyPremium(item) {
+                if (this.gems >= item.price) {
+                    this.gems -= item.price;
+                    
+                    switch(item.type) {
+                        case 'tempMult':
+                            this.multiplier *= item.value;
+                            setTimeout(() => this.multiplier /= item.value, item.value === 10 ? 300000 : 60000);
+                            break;
+                        case 'tempRage':
+                            this.rageMode = true;
+                            this.rageMultiplier = 5;
+                            this.rageTimer = 30;
+                            this.critChance = 100;
+                            document.getElementById('orb').classList.add('rage');
+                            setTimeout(() => {
+                                this.rageMode = false;
+                                this.critChance = 5;
+                                document.getElementById('orb').classList.remove('rage');
+                            }, 30000);
+                            break;
+                        case 'skin':
+                            if (item.value === 'legendary') {
+                                document.getElementById('orb').classList.add('legendary');
+                            }
+                            break;
+                        case 'gold':
+                            this.gold += item.value;
+                            break;
+                        case 'tempInfinite':
+                            this.infiniteEnergy = true;
+                            this.infiniteTimer = item.value;
+                            break;
+                        case 'mystery':
+                            const mysteryItem = this.premiumItems[Math.floor(Math.random() * this.premiumItems.length)];
+                            this.buyPremium(mysteryItem);
+                            break;
+                    }
+                    
+                    this.showNotification(`✨ Премиум: ${item.name}`);
+                    this.updateDisplay();
+                    this.renderPremium();
+                } else {
+                    this.showNotification('❌ Не хватает кристаллов!');
+                }
+            }
+            
+            upgradeTalent(talent) {
+                const currentLevel = this.talents[talent];
+                if (currentLevel >= this.talentPrices[talent].length) {
+                    this.showNotification('⭐ Максимальный уровень таланта!');
+                    return;
+                }
+                
+                const price = this.talentPrices[talent][currentLevel];
+                if (this.talentPoints >= price) {
+                    this.talentPoints -= price;
+                    this.talents[talent]++;
+                    
+                    // Применяем эффект таланта
+                    switch(talent) {
+                        case 'powerMaster':
+                            this.clickPower += 2;
+                            break;
+                        case 'critMaster':
+                            this.critChance += 3;
+                            break;
+                        case 'energyMaster':
+                            this.maxEnergy += 10;
+                            break;
+                        case 'goldMaster':
+                            this.luck += 2;
+                            break;
+                        case 'offlineMaster':
+                            // Эффект уже в автокликере
+                            break;
+                        case 'luckMaster':
+                            this.luck += 3;
+                            break;
+                    }
+                    
+                    this.showNotification(`⭐ Талант улучшен!`);
+                    this.renderTalents();
+                    this.updateDisplay();
+                } else {
+                    this.showNotification(`❌ Нужно ${price} очков талантов!`);
+                }
+            }
+            
+            checkDaily() {
+                const today = new Date().toDateString();
+                if (localStorage.getItem('lastDaily') !== today) {
+                    this.dailyStreak = (parseInt(localStorage.getItem('dailyStreak')) || 0) + 1;
+                    localStorage.setItem('dailyStreak', this.dailyStreak);
+                    localStorage.setItem('lastDaily', today);
+                    
+                    const reward = 100 + this.dailyStreak * 50;
+                    const gems = 5 + Math.floor(this.dailyStreak / 5);
+                    
+                    document.getElementById('eventTitle').textContent = `🎁 ДЕНЬ ${this.dailyStreak}`;
+                    document.getElementById('eventDesc').textContent = `Стрик: ${this.dailyStreak} дней!`;
+                    document.getElementById('eventReward').textContent = `+${reward}💰 +${gems}💎`;
+                }
+            }
+            
+            claimDaily() {
+                const reward = 100 + this.dailyStreak * 50;
+                const gems = 5 + Math.floor(this.dailyStreak / 5);
+                this.gold += reward;
+                this.gems += gems;
+                this.showNotification(`🎁 Дневной бонус: +${reward}💰 +${gems}💎`);
+                this.updateDisplay();
+                document.getElementById('dailyEvent').style.opacity = '0.5';
+                document.getElementById('dailyEvent').style.pointerEvents = 'none';
+            }
+            
+            premiumSpin() {
+                if (this.gems >= 20) {
+                    this.gems -= 20;
+                    const rewards = ['+100💰', '+50💰', '+5💎', '🔥 x2 на 1 мин', '👆 +5 силы', '🎯 +10% крита'];
+                    const reward = rewards[Math.floor(Math.random() * rewards.length)];
+                    this.showNotification(`🎰 СПИН: ${reward}`);
+                    
+                    if (reward.includes('💰')) {
+                        this.gold += parseInt(reward);
+                    } else if (reward.includes('💎')) {
+                        this.gems += parseInt(reward);
+                    } else if (reward.includes('🔥')) {
+                        this.rageMode = true;
+                        this.rageMultiplier = 2;
+                        this.rageTimer = 60;
+                        document.getElementById('orb').classList.add('rage');
+                    } else if (reward.includes('👆')) {
+                        this.clickPower += 5;
+                    } else if (reward.includes('🎯')) {
+                        this.critChance += 10;
+                    }
+                    
+                    this.updateDisplay();
+                } else {
+                    this.showNotification('❌ Нужно 20 кристаллов!');
+                }
+            }
+            
+            showTab(tab) {
+                this.currentTab = tab;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('visible'));
+                
+                event.target.classList.add('active');
+                document.getElementById(`${tab}Panel`).classList.add('visible');
+            }
+            
+            renderShop() {
+                const container = document.getElementById('shopItems');
+                container.innerHTML = '';
+                
+                this.shopItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'shop-item';
+                    itemElement.onclick = () => this.buyItem(item);
+                    
+                    itemElement.innerHTML = `
+                        <div class="shop-item-info">
+                            <span class="shop-item-icon">${item.icon}</span>
+                            <div>
+                                <div class="shop-item-name">${item.name}</div>
+                                <div class="shop-item-desc">${item.desc}</div>
+                            </div>
+                        </div>
+                        <div class="shop-item-price">${item.price}💰</div>
+                    `;
+                    
+                    container.appendChild(itemElement);
+                });
+            }
+            
+            renderPremium() {
+                const container = document.getElementById('premiumItems');
+                container.innerHTML = '';
+                
+                this.premiumItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'shop-item premium';
+                    itemElement.onclick = () => this.buyPremium(item);
+                    
+                    itemElement.innerHTML = `
+                        <div class="shop-item-info">
+                            <span class="shop-item-icon">${item.icon}</span>
+                            <div>
+                                <div class="shop-item-name">${item.name}</div>
+                                <div class="shop-item-desc">${item.desc}</div>
+                            </div>
+                        </div>
+                        <div class="shop-item-price gems">${item.price}💎</div>
+                    `;
+                    
+                    container.appendChild(itemElement);
+                });
+            }
+            
+            renderTalents() {
+                const container = document.getElementById('talentTree');
+                container.innerHTML = '';
+                document.getElementById('talentPoints').textContent = this.talentPoints;
+                
+                const talents = [
+                    { id: 'powerMaster', name: '👆 Мастер силы', desc: '+2 к силе клика' },
+                    { id: 'critMaster', name: '🎯 Мастер крита', desc: '+3% к шансу крита' },
+                    { id: 'energyMaster', name: '💎 Мастер энергии', desc: '+10 к макс энергии' },
+                    { id: 'goldMaster', name: '💰 Мастер золота', desc: '+2% к удаче' },
+                    { id: 'offlineMaster', name: '🤖 Мастер офлайна', desc: '+10% к офлайн доходу' },
+                    { id: 'luckMaster', name: '🍀 Мастер удачи', desc: '+3% ко всему' }
+                ];
+                
+                talents.forEach(t => {
+                    const level = this.talents[t.id];
+                    const maxLevel = this.talentPrices[t.id].length;
+                    const nextPrice = level < maxLevel ? this.talentPrices[t.id][level] : 'MAX';
+                    
+                    const talentElement = document.createElement('div');
+                    talentElement.className = `talent ${level > 0 ? 'unlocked' : ''}`;
+                    talentElement.onclick = () => this.upgradeTalent(t.id);
+                    
+                    talentElement.innerHTML = `
+                        <div class="talent-icon">${t.name.split(' ')[0]}</div>
+                        <div class="talent-name">${t.name}</div>
+                        <div class="talent-level">Ур. ${level}/${maxLevel}</div>
+                        <div style="color: #4ecdc4; font-size: 11px;">Цена: ${nextPrice}⭐</div>
+                    `;
+                    
+                    container.appendChild(talentElement);
+                });
+            }
+            
+            save() {
+                const saveData = {
+                    score: this.score,
+                    gold: this.gold,
+                    gems: this.gems,
+                    level: this.level,
+                    exp: this.exp,
+                    expToNext: this.expToNext,
+                    clickPower: this.clickPower,
+                    multiplier: this.multiplier,
+                    autoClicker: this.autoClicker,
+                    critChance: this.critChance,
+                    critMultiplier: this.critMultiplier,
+                    luck: this.luck,
+                    totalClicks: this.totalClicks,
+                    totalCrits: this.totalCrits,
+                    totalGold: this.totalGold,
+                    totalEnergy: this.totalEnergy,
+                    maxScore: this.maxScore,
+                    playTime: this.playTime,
+                    maxEnergy: this.maxEnergy,
+                    energy: this.energy,
+                    talentPoints: this.talentPoints,
+                    talents: this.talents,
+                    dailyStreak: this.dailyStreak
+                };
+                
+                localStorage.setItem('magicOrbRPG', JSON.stringify(saveData));
+                this.showNotification('💾 ИГРА СОХРАНЕНА!');
+            }
+            
+            load() {
+                const saveData = localStorage.getItem('magicOrbRPG');
+                if (saveData) {
+                    try {
+                        const data = JSON.parse(saveData);
+                        Object.assign(this, data);
+                        this.showNotification('📂 ЗАГРУЗКА СОХРАНЕНИЯ');
+                    } catch (e) {
+                        this.showNotification('✨ НОВАЯ ИГРА');
+                    }
+                }
+            }
+            
+            updateDisplay() {
+                document.getElementById('scoreDisplay').textContent = Math.floor(this.score);
+                document.getElementById('goldDisplay').innerHTML = `💰 ${Math.floor(this.gold)}`;
+                document.getElementById('gemsDisplay').innerHTML = `💎 ${Math.floor(this.gems)}`;
+                document.getElementById('levelDisplay').innerHTML = `📊 Ур. ${this.level}`;
+                
+                const expPercent = (this.exp / this.expToNext) * 100;
+                document.getElementById('expBar').style.width = `${expPercent}%`;
+                document.getElementById('expText').textContent = `${Math.floor(this.exp)}/${this.expToNext}`;
+                
+                const energyPercent = (this.energy / this.maxEnergy) * 100;
+                document.getElementById('energyBar').style.width = `${energyPercent}%`;
+                document.getElementById('energyText').textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
+                
+                document.getElementById('clickPowerDisplay').textContent = this.clickPower;
+                document.getElementById('multiplierDisplay').textContent = `x${this.multiplier}`;
+                document.getElementById('autoClickerDisplay').textContent = `${this.autoClicker}/с`;
+                document.getElementById('critDisplay').textContent = `${this.critChance}%`;
+                document.getElementById('critDamageDisplay').textContent = `x${this.critMultiplier}`;
+                document.getElementById('luckDisplay').textContent = `${this.luck}%`;
+                
+                // Статистика
+                document.getElementById('statTotalClicks').textContent = this.totalClicks;
+                document.getElementById('statTotalCrits').textContent = this.totalCrits;
+                document.getElementById('statTotalGold').textContent = this.totalGold;
+                document.getElementById('statTotalEnergy').textContent = this.totalEnergy;
+                document.getElementById('statMaxScore').textContent = Math.floor(this.maxScore);
+                document.getElementById('statPlayTime').textContent = this.playTime;
+                document.getElementById('statLevel').textContent = this.level;
+                
+                const critAccuracy = this.totalClicks > 0 ? ((this.totalCrits / this.totalClicks) * 100).toFixed(1) : 0;
+                document.getElementById('statCritAccuracy').textContent = `${critAccuracy}%`;
+            }
+            
+            showNotification(text) {
+                const notif = document.getElementById('notification');
+                notif.textContent = text;
+                notif.style.display = 'block';
+                setTimeout(() => {
+                    notif.style.display = 'none';
+                }, 2000);
+            }
+        }
+        
+        // Инициализация игры
+        const game = new MagicOrbRPG();
+    </script>
+</body>
+</html>
