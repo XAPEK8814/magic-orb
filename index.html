@@ -26,7 +26,7 @@
         .game-container {
             width: 100%;
             max-width: 450px;
-            background: rgba(10, 10, 25, 0.9);
+            background: rgba(10, 10, 25, 0.95);
             border-radius: 36px;
             padding: 20px 15px;
             box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 0 2px rgba(255,215,0,0.2) inset;
@@ -50,11 +50,12 @@
             padding: 6px 12px;
             border-radius: 30px;
             border: 1px solid rgba(255,215,0,0.3);
+            cursor: pointer;
         }
         
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: linear-gradient(135deg, #4b7bec, #a55eea);
             display: flex;
@@ -62,19 +63,46 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
         
         .user-name {
             color: white;
             font-size: 14px;
             font-weight: bold;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .user-rank {
+            color: gold;
+            font-size: 12px;
+        }
+        
+        .badge-container {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .badge-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: gold;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
         }
         
         .rustore-badge {
             background: linear-gradient(135deg, #ff4757, #ff6b81);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 12px;
             border-radius: 30px;
             font-size: 12px;
             font-weight: bold;
@@ -216,7 +244,7 @@
             box-shadow: 0 0 50px currentColor;
         }
         
-        /* Каменная сфера - текстура камня */
+        /* Каменная сфера */
         .orb.evo-1 {
             background: radial-gradient(circle at 30% 30%, #8e8e8e, #4a4a4a);
             box-shadow: 0 0 40px #8e8e8e;
@@ -234,7 +262,7 @@
             border-radius: 50%;
         }
         
-        /* Ледяная сфера - кристаллическая текстура */
+        /* Ледяная сфера */
         .orb.evo-2 {
             background: radial-gradient(circle at 30% 30%, #a8e6cf, #56ab2f);
             box-shadow: 0 0 50px #a8e6cf;
@@ -251,7 +279,7 @@
             border-radius: 50%;
         }
         
-        /* Пламенная сфера - огненная текстура */
+        /* Пламенная сфера */
         .orb.evo-3 {
             background: radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a);
             box-shadow: 0 0 60px #ff6b6b;
@@ -269,7 +297,7 @@
             animation: flameRotate 10s linear infinite;
         }
         
-        /* Магическая сфера - светящаяся */
+        /* Магическая сфера */
         .orb.evo-4 {
             background: radial-gradient(circle at 30% 30%, #9775fa, #5f3dc4);
             box-shadow: 0 0 70px #9775fa;
@@ -287,7 +315,7 @@
             animation: rotate 20s linear infinite;
         }
         
-        /* Древняя сфера - руническая */
+        /* Древняя сфера */
         .orb.evo-5 {
             background: radial-gradient(circle at 30% 30%, #b197fc, #6741d9);
             box-shadow: 0 0 80px #b197fc;
@@ -305,7 +333,7 @@
             animation: rotate 30s linear infinite;
         }
         
-        /* Мистическая сфера - туманная */
+        /* Мистическая сфера */
         .orb.evo-6 {
             background: radial-gradient(circle at 30% 30%, #e599f7, #862e9c);
             box-shadow: 0 0 90px #e599f7;
@@ -323,7 +351,7 @@
             filter: blur(10px);
         }
         
-        /* Божественная сфера - золотая */
+        /* Божественная сфера */
         .orb.evo-7 {
             background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
             box-shadow: 0 0 100px gold;
@@ -340,7 +368,7 @@
             border-radius: 50%;
         }
         
-        /* Космическая сфера - звездная */
+        /* Космическая сфера */
         .orb.evo-8 {
             background: radial-gradient(circle at 30% 30%, #4a4e69, #1a1a2e);
             box-shadow: 0 0 110px #4a4e69;
@@ -358,7 +386,7 @@
             border-radius: 50%;
         }
         
-        /* Бесконечная сфера - бесконечный узор */
+        /* Бесконечная сфера */
         .orb.evo-9 {
             background: radial-gradient(circle at 30% 30%, #c77dff, #6a0dad);
             box-shadow: 0 0 120px #c77dff;
@@ -376,7 +404,7 @@
             animation: rotate 20s linear infinite;
         }
         
-        /* Абсолютная сфера - финальная */
+        /* Абсолютная сфера */
         .orb.evo-10 {
             background: radial-gradient(circle at 30% 30%, #ffffff, #f0e68c, #ffd700);
             box-shadow: 0 0 150px gold, 0 0 0 4px rgba(255,255,255,0.8) inset;
@@ -395,7 +423,74 @@
             animation: rotate 10s linear infinite;
         }
         
-        /* Трещины - более реалистичные */
+        /* Бесконечная престиж-сфера */
+        .orb.prestige-1 {
+            background: radial-gradient(circle at 30% 30%, #ff00ff, #8a2be2);
+            box-shadow: 0 0 200px #ff00ff, 0 0 0 2px rgba(255,255,255,0.9) inset;
+            animation: prestigeFloat 3s ease-in-out infinite;
+        }
+        .orb.prestige-1::before {
+            content: '∞';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255,255,255,0.8);
+            font-size: 70px;
+            font-weight: bold;
+            text-shadow: 0 0 30px gold;
+            animation: rotate 15s linear infinite;
+        }
+        
+        .orb.prestige-2 {
+            background: radial-gradient(circle at 30% 30%, #ff4444, #ffd700);
+            box-shadow: 0 0 250px #ff4444, 0 0 0 4px gold inset;
+            animation: prestigeFloat 2s ease-in-out infinite;
+        }
+        
+        .orb.prestige-3 {
+            background: radial-gradient(circle at 30% 30%, #00ffff, #ff00ff);
+            box-shadow: 0 0 300px cyan, 0 0 0 6px white inset;
+            animation: prestigeFloat 1s ease-in-out infinite;
+        }
+        
+        /* Престиж полоса */
+        .prestige-section {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,215,0,0.1);
+            border-radius: 20px;
+            border: 1px solid gold;
+        }
+        
+        .prestige-title {
+            color: gold;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .prestige-level {
+            color: #ff00ff;
+        }
+        
+        .prestige-progress {
+            height: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .prestige-fill {
+            height: 100%;
+            background: linear-gradient(90deg, gold, #ff00ff);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* Трещины */
         .orb.cracked-1::after {
             content: '';
             position: absolute;
@@ -472,6 +567,11 @@
             50% { transform: translateY(-15px) scale(1.05); }
         }
         
+        @keyframes prestigeFloat {
+            0%, 100% { transform: translateY(0) scale(1); filter: hue-rotate(0deg); }
+            50% { transform: translateY(-20px) scale(1.1); filter: hue-rotate(90deg); }
+        }
+        
         @keyframes flamePulse {
             0%, 100% { filter: brightness(1); }
             50% { filter: brightness(1.3); }
@@ -505,6 +605,170 @@
         
         .orb.evolve {
             animation: evolve 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        /* Ежедневные активности */
+        .daily-section {
+            background: rgba(255,215,0,0.05);
+            border-radius: 20px;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .daily-title {
+            color: gold;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .daily-reset {
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+        }
+        
+        .daily-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .daily-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 10px 5px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        
+        .daily-card.completed {
+            border-color: #26de81;
+            background: rgba(38,222,129,0.1);
+        }
+        
+        .daily-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .daily-name {
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .daily-progress {
+            color: gold;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+        
+        .daily-reward {
+            background: linear-gradient(135deg, gold, #ffd700);
+            color: black;
+            padding: 3px 6px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        /* Таблица лидеров */
+        .leaderboard-section {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .leaderboard-tab {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: rgba(255,255,255,0.6);
+            padding: 8px;
+            border-radius: 15px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .leaderboard-tab.active {
+            background: gold;
+            color: black;
+            font-weight: bold;
+        }
+        
+        .leaderboard-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .leaderboard-rank {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: rgba(255,215,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: gold;
+        }
+        
+        .leaderboard-rank.top1 { background: gold; color: black; }
+        .leaderboard-rank.top2 { background: silver; color: black; }
+        .leaderboard-rank.top3 { background: #cd7f32; color: black; }
+        
+        .leaderboard-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4b7bec, #a55eea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .leaderboard-info {
+            flex: 1;
+        }
+        
+        .leaderboard-name {
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        
+        .leaderboard-score {
+            color: gold;
+            font-size: 11px;
+        }
+        
+        .leaderboard-reward {
+            color: #26de81;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
         }
         
         /* Компактная статистика */
@@ -561,7 +825,7 @@
             border: 1px solid gold;
             border-top: none;
             display: none;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
         
@@ -698,9 +962,16 @@
     <div class="game-container">
         <!-- Верхняя панель с авторизацией -->
         <div class="top-bar">
-            <div class="user-info">
+            <div class="user-info" onclick="game.showProfile()">
                 <div class="user-avatar" id="userAvatar">Г</div>
-                <span class="user-name" id="userName">Гость</span>
+                <div>
+                    <div class="user-name" id="userName">Гость</div>
+                    <div class="user-rank" id="userRank">Новичок</div>
+                </div>
+            </div>
+            <div class="badge-container">
+                <div class="badge-icon" id="dailyStreakBadge">0</div>
+                <div class="badge-icon" id="prestigeBadge">0</div>
             </div>
             <div class="rustore-badge" onclick="game.loginWithRuStore()">
                 <span>🔄</span> RuStore
@@ -750,6 +1021,17 @@
             </div>
         </div>
         
+        <!-- Престиж секция -->
+        <div class="prestige-section" id="prestigeSection" style="display: none;">
+            <div class="prestige-title">
+                <span>✨ ПРЕСТИЖ</span>
+                <span class="prestige-level" id="prestigeLevel">0</span>
+            </div>
+            <div class="prestige-progress">
+                <div class="prestige-fill" id="prestigeBar"></div>
+            </div>
+        </div>
+        
         <!-- Счет -->
         <div class="score-container">
             <div class="score-label">МАГИЧЕСКАЯ ЭНЕРГИЯ</div>
@@ -757,7 +1039,7 @@
         </div>
         
         <!-- Сфера -->
-        <div class="orb-container" id="orbContainer" ontouchstart="game.click()" ontouchmove="game.handleMultiTouch(event)" ontouchend="game.endTouch()">
+        <div class="orb-container" id="orbContainer" ontouchstart="game.handleTouchStart(event)" ontouchmove="game.handleTouchMove(event)" ontouchend="game.handleTouchEnd(event)">
             <div class="orb evo-1" id="orb"></div>
         </div>
         
@@ -767,6 +1049,35 @@
         <!-- Прогресс эволюции -->
         <div class="evolution-progress">
             <div class="evolution-fill" id="evoBar"></div>
+        </div>
+        
+        <!-- Ежедневные активности -->
+        <div class="daily-section">
+            <div class="daily-title">
+                <span>🎯 ЕЖЕДНЕВНЫЕ АКТИВНОСТИ</span>
+                <span class="daily-reset" id="dailyReset">00:00</span>
+            </div>
+            <div class="daily-grid" id="dailyQuests"></div>
+        </div>
+        
+        <!-- Таблица лидеров -->
+        <div class="leaderboard-section">
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" onclick="game.showLeaderboard('day')">ДЕНЬ</button>
+                <button class="leaderboard-tab" onclick="game.showLeaderboard('week')">НЕДЕЛЯ</button>
+                <button class="leaderboard-tab" onclick="game.showLeaderboard('all')">ВСЕ ВРЕМЯ</button>
+            </div>
+            <div class="leaderboard-list" id="leaderboardList">
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank top1">1</div>
+                    <div class="leaderboard-avatar">M</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">MagicMaster</div>
+                        <div class="leaderboard-score">1,234,567 кликов</div>
+                    </div>
+                    <div class="leaderboard-reward">👑 Лидер</div>
+                </div>
+            </div>
         </div>
         
         <!-- Компактная статистика -->
@@ -811,6 +1122,9 @@
                 <div>⏰ Время: <span id="statPlayTime">0</span>с</div>
                 <div>🏆 Уровень: <span id="statLevel">1</span></div>
                 <div>🎯 Точность: <span id="statCritAccuracy">0%</span></div>
+                <div>✨ Престиж: <span id="statPrestige">0</span></div>
+                <div>🔥 Стрик: <span id="statStreak">0</span> дней</div>
+                <div>🏅 Побед в лиге: <span id="statWins">0</span></div>
             </div>
         </div>
         
@@ -833,7 +1147,7 @@
                 
                 // Ресурсы
                 this.score = 0;
-                this.gold = 100; // Начальное золото для теста
+                this.gold = 100;
                 this.gems = 10;
                 this.level = 1;
                 this.exp = 0;
@@ -882,10 +1196,36 @@
                     "Абсолютная сфера"
                 ];
                 
+                // Престиж система
+                this.prestigeLevel = 0;
+                this.prestigeProgress = 0;
+                this.prestigeMax = 1000;
+                this.prestigeBonus = 0.1; // +10% за уровень престижа
+                
+                // Ежедневные активности
+                this.dailyQuests = [
+                    { id: 0, name: 'Тапун', icon: '👆', target: 1000, progress: 0, reward: 50, completed: false },
+                    { id: 1, name: 'Критовик', icon: '🎯', target: 100, progress: 0, reward: 30, completed: false },
+                    { id: 2, name: 'Золотоискатель', icon: '💰', target: 500, progress: 0, reward: 20, completed: false }
+                ];
+                this.dailyStreak = 0;
+                this.lastDailyReset = new Date().toDateString();
+                
+                // Таблица лидеров
+                this.leaderboard = {
+                    day: [],
+                    week: [],
+                    all: []
+                };
+                this.leaderboardType = 'day';
+                this.dailyRank = 0;
+                this.weeklyRank = 0;
+                this.allTimeRank = 0;
+                
                 // Мультитач
                 this.activeTouches = new Set();
+                this.touchDelay = 30;
                 this.lastTouchTime = 0;
-                this.touchDelay = 50; // Минимальная задержка между тапами в мс
                 
                 // КД
                 this.eventCooldown = 0;
@@ -897,15 +1237,146 @@
                 this.load();
                 this.startAutoClicker();
                 this.startTimeTracking();
+                this.checkDailyReset();
+                this.updateLeaderboard();
                 this.updateUI();
                 this.renderShop();
                 this.renderTalents();
+                this.renderDailyQuests();
                 
                 setInterval(() => this.updateCooldowns(), 1000);
+                setInterval(() => this.checkDailyReset(), 60000);
                 this.updateUserInfo();
+            }
+            
+            // Престиж система
+            prestige() {
+                if (this.evolutionStage >= 10 && this.prestigeProgress >= this.prestigeMax) {
+                    this.prestigeLevel++;
+                    this.prestigeProgress = 0;
+                    
+                    // Сброс прогресса с бонусами
+                    this.level = 1;
+                    this.exp = 0;
+                    this.expRequired = 200;
+                    this.evolutionStage = 1;
+                    this.evolutionProgress = 0;
+                    
+                    // Увеличение бонусов
+                    this.clickPower += this.prestigeLevel * 2;
+                    this.multiplier += this.prestigeLevel * 0.5;
+                    
+                    this.showNotification(`✨ ПРЕСТИЖ ${this.prestiseLevel}!`);
+                    this.updateUI();
+                }
+            }
+            
+            // Ежедневные активности
+            renderDailyQuests() {
+                const container = document.getElementById('dailyQuests');
+                container.innerHTML = this.dailyQuests.map(q => `
+                    <div class="daily-card ${q.completed ? 'completed' : ''}">
+                        <div class="daily-icon">${q.icon}</div>
+                        <div class="daily-name">${q.name}</div>
+                        <div class="daily-progress">${q.progress}/${q.target}</div>
+                        <div class="daily-reward">${q.reward}💰</div>
+                    </div>
+                `).join('');
+            }
+            
+            updateQuestProgress(type, amount) {
+                const quest = this.dailyQuests[type];
+                if (!quest.completed) {
+                    quest.progress += amount;
+                    if (quest.progress >= quest.target) {
+                        quest.completed = true;
+                        this.gold += quest.reward;
+                        this.dailyStreak++;
+                        this.showNotification(`✅ Квест выполнен! +${quest.reward}💰`);
+                    }
+                }
+            }
+            
+            checkDailyReset() {
+                const today = new Date().toDateString();
+                if (this.lastDailyReset !== today) {
+                    // Сброс квестов
+                    this.dailyQuests.forEach(q => {
+                        q.progress = 0;
+                        q.completed = false;
+                    });
+                    this.lastDailyReset = today;
+                    
+                    // Обновление стрика
+                    if (this.dailyStreak > 0) {
+                        this.gems += this.dailyStreak;
+                        this.showNotification(`🔥 Стрик ${this.dailyStreak} дней! +${this.dailyStreak}💎`);
+                    }
+                    
+                    this.renderDailyQuests();
+                }
                 
-                // Автосохранение каждые 30 секунд
-                setInterval(() => this.save(), 30000);
+                // Таймер до сброса
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+                const diff = tomorrow - now;
+                const hours = Math.floor(diff / 3600000);
+                const minutes = Math.floor((diff % 3600000) / 60000);
+                document.getElementById('dailyReset').textContent = `${hours}:${minutes.toString().padStart(2,'0')}`;
+            }
+            
+            // Таблица лидеров
+            updateLeaderboard() {
+                // Тестовые данные
+                this.leaderboard.day = [
+                    { name: 'MagicMaster', clicks: 1234567, avatar: 'M', reward: '👑' },
+                    { name: 'OrbHunter', clicks: 987654, avatar: 'O', reward: '🥈' },
+                    { name: 'ClickMaster', clicks: 765432, avatar: 'C', reward: '🥉' },
+                    { name: 'DragonSlayer', clicks: 543210, avatar: 'D', reward: '50💰' },
+                    { name: 'Phoenix', clicks: 321098, avatar: 'P', reward: '30💰' }
+                ];
+                
+                this.renderLeaderboard();
+            }
+            
+            renderLeaderboard() {
+                const list = document.getElementById('leaderboardList');
+                const data = this.leaderboard[this.leaderboardType];
+                
+                list.innerHTML = data.map((item, index) => {
+                    let rankClass = '';
+                    if (index === 0) rankClass = 'top1';
+                    else if (index === 1) rankClass = 'top2';
+                    else if (index === 2) rankClass = 'top3';
+                    
+                    return `
+                        <div class="leaderboard-item">
+                            <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
+                            <div class="leaderboard-avatar">${item.avatar}</div>
+                            <div class="leaderboard-info">
+                                <div class="leaderboard-name">${item.name}</div>
+                                <div class="leaderboard-score">${item.clicks.toLocaleString()} кликов</div>
+                            </div>
+                            <div class="leaderboard-reward">${item.reward}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            showLeaderboard(type) {
+                this.leaderboardType = type;
+                document.querySelectorAll('.leaderboard-tab').forEach(t => t.classList.remove('active'));
+                event.target.classList.add('active');
+                this.renderLeaderboard();
+            }
+            
+            // Профиль пользователя
+            showProfile() {
+                const rank = this.dailyRank === 1 ? '👑 Лидер дня' : 
+                           this.dailyRank <= 10 ? `🏆 Топ ${this.dailyRank}` : '⭐ Игрок';
+                this.showNotification(`${this.userName}\n${rank}\n🔥 Стрик: ${this.dailyStreak} дней`);
             }
             
             // RuStore авторизация
@@ -913,11 +1384,10 @@
                 if (window.Android && window.Android.login) {
                     window.Android.login();
                 } else {
-                    // Тестовый режим
                     this.userName = "RuStore User";
                     this.userId = "rustore_" + Math.random().toString(36).substr(2, 9);
                     this.isLoggedIn = true;
-                    this.gems += 10; // Бонус за авторизацию
+                    this.gems += 10;
                     this.updateUserInfo();
                     this.showNotification('✅ Авторизован в RuStore! +10💎');
                     this.save();
@@ -927,28 +1397,44 @@
             updateUserInfo() {
                 document.getElementById('userAvatar').textContent = this.userName[0].toUpperCase();
                 document.getElementById('userName').textContent = this.userName;
+                document.getElementById('dailyStreakBadge').textContent = this.dailyStreak;
+                document.getElementById('prestigeBadge').textContent = this.prestigeLevel;
+                
+                let rank = 'Новичок';
+                if (this.prestigeLevel > 0) rank = `Престиж ${this.prestigeLevel}`;
+                else if (this.level > 50) rank = 'Мастер';
+                else if (this.level > 20) rank = 'Воин';
+                else if (this.level > 10) rank = 'Ученик';
+                document.getElementById('userRank').textContent = rank;
             }
             
             // Мультитач
-            handleMultiTouch(event) {
+            handleTouchStart(event) {
                 event.preventDefault();
+                this.processTouches(event.touches);
+            }
+            
+            handleTouchMove(event) {
+                event.preventDefault();
+                this.processTouches(event.touches);
+            }
+            
+            handleTouchEnd(event) {
+                event.preventDefault();
+                this.activeTouches.clear();
+            }
+            
+            processTouches(touches) {
                 const now = Date.now();
-                
-                // Ограничиваем частоту тапов
                 if (now - this.lastTouchTime < this.touchDelay) return;
                 
-                // Обрабатываем каждый палец
-                for (let touch of event.touches) {
+                for (let touch of touches) {
                     if (!this.activeTouches.has(touch.identifier)) {
                         this.activeTouches.add(touch.identifier);
                         this.click();
                     }
                 }
                 this.lastTouchTime = now;
-            }
-            
-            endTouch() {
-                this.activeTouches.clear();
             }
             
             click() {
@@ -960,8 +1446,10 @@
                 this.energy--;
                 this.totalEnergy++;
                 
-                // Расчёт очков с учётом талантов
-                let points = (this.clickPower + this.talents.power) * this.multiplier;
+                // Престиж бонус
+                const prestigeBonus = 1 + (this.prestigeLevel * this.prestigeBonus);
+                
+                let points = (this.clickPower + this.talents.power) * this.multiplier * prestigeBonus;
                 
                 // Крит
                 const critChance = this.critChance + this.talents.crit * 0.5;
@@ -970,10 +1458,16 @@
                     this.totalCrits++;
                     document.getElementById('orb').classList.add('critical');
                     setTimeout(() => document.getElementById('orb').classList.remove('critical'), 100);
+                    
+                    // Прогресс квеста критов
+                    this.updateQuestProgress(1, 1);
                 }
                 
                 this.score += Math.floor(points);
                 this.totalClicks++;
+                
+                // Прогресс квеста кликов
+                this.updateQuestProgress(0, 1);
                 
                 if (this.score > this.maxScore) this.maxScore = this.score;
                 
@@ -983,6 +1477,9 @@
                     const goldFound = Math.floor(points * 0.2 * (1 + this.talents.gold * 0.003));
                     this.gold += goldFound;
                     this.totalGold += goldFound;
+                    
+                    // Прогресс квеста золота
+                    this.updateQuestProgress(2, goldFound);
                 }
                 
                 // Опыт
@@ -993,6 +1490,12 @@
                 this.evolutionProgress += points / 10;
                 if (this.evolutionProgress >= this.evolutionMax) {
                     this.evolveOrb();
+                }
+                
+                // Прогресс престижа
+                this.prestigeProgress += points / 1000;
+                if (this.prestigeProgress >= this.prestigeMax) {
+                    this.prestige();
                 }
                 
                 this.updateUI();
@@ -1024,7 +1527,6 @@
                     orb.classList.remove('shatter');
                     orb.classList.add('evolve');
                     
-                    // Меняем класс
                     orb.className = orb.className.split(' ').filter(c => !c.startsWith('evo-')).join(' ');
                     orb.classList.add(`evo-${this.evolutionStage}`);
                     
@@ -1051,7 +1553,8 @@
                 setInterval(() => {
                     if (this.autoClicker > 0) {
                         const offlineBonus = 1 + this.talents.offline * 0.2;
-                        this.score += Math.floor(this.clickPower * this.multiplier * this.autoClicker * offlineBonus);
+                        const prestigeBonus = 1 + (this.prestigeLevel * this.prestigeBonus);
+                        this.score += Math.floor(this.clickPower * this.multiplier * this.autoClicker * offlineBonus * prestigeBonus);
                     }
                     
                     if (this.energy < this.maxEnergy) {
@@ -1065,9 +1568,7 @@
             }
             
             startTimeTracking() {
-                setInterval(() => {
-                    this.save(); // Автосохранение
-                }, 60000);
+                setInterval(() => this.save(), 60000);
             }
             
             updateCooldowns() {
@@ -1133,10 +1634,6 @@
                     { name:'⚡ x2 на 5 мин', act:() => {
                         this.multiplier *= 2;
                         setTimeout(() => this.multiplier /= 2, 300000);
-                    }},
-                    { name:'🎯 +5% крита на 5 мин', act:() => {
-                        this.critChance += 5;
-                        setTimeout(() => this.critChance -= 5, 300000);
                     }}
                 ];
                 
@@ -1265,17 +1762,17 @@
                     talentPoints: this.talentPoints,
                     talents: this.talents,
                     evolutionStage: this.evolutionStage,
-                    evolutionProgress: this.evolutionProgress
+                    evolutionProgress: this.evolutionProgress,
+                    prestigeLevel: this.prestigeLevel,
+                    prestigeProgress: this.prestigeProgress,
+                    dailyStreak: this.dailyStreak,
+                    dailyQuests: this.dailyQuests
                 };
                 
                 localStorage.setItem('magicOrbRPG_' + this.userId, JSON.stringify(data));
                 localStorage.setItem('userId', this.userId);
                 localStorage.setItem('userName', this.userName);
                 localStorage.setItem('isLoggedIn', this.isLoggedIn);
-                
-                if (this.isLoggedIn && window.Android && window.Android.saveData) {
-                    window.Android.saveData(JSON.stringify(data));
-                }
             }
             
             load() {
@@ -1316,6 +1813,20 @@
                 document.getElementById('energyBar').style.width = energyPercent + '%';
                 document.getElementById('energyText').textContent = `${Math.floor(this.energy)}/${this.maxEnergy}`;
                 
+                // Престиж
+                if (this.prestigeLevel > 0) {
+                    document.getElementById('prestigeSection').style.display = 'block';
+                    document.getElementById('prestigeLevel').textContent = this.prestigeLevel;
+                    const prestigePercent = (this.prestigeProgress / this.prestigeMax) * 100;
+                    document.getElementById('prestigeBar').style.width = prestigePercent + '%';
+                    
+                    // Меняем сферу на престижную
+                    const orb = document.getElementById('orb');
+                    if (this.prestigeLevel >= 3) orb.classList.add('prestige-3');
+                    else if (this.prestigeLevel >= 2) orb.classList.add('prestige-2');
+                    else if (this.prestigeLevel >= 1) orb.classList.add('prestige-1');
+                }
+                
                 // Компактная статистика
                 document.getElementById('statClick').textContent = this.clickPower + this.talents.power;
                 document.getElementById('statMult').textContent = 'x' + this.multiplier;
@@ -1336,9 +1847,15 @@
                 document.getElementById('statMaxScore').textContent = Math.floor(this.maxScore);
                 document.getElementById('statPlayTime').textContent = this.playTime;
                 document.getElementById('statLevel').textContent = this.level;
+                document.getElementById('statPrestige').textContent = this.prestigeLevel;
+                document.getElementById('statStreak').textContent = this.dailyStreak;
                 
                 const acc = this.totalClicks > 0 ? (this.totalCrits / this.totalClicks * 100).toFixed(1) : 0;
                 document.getElementById('statCritAccuracy').textContent = acc + '%';
+                
+                // Обновление пользователя
+                this.updateUserInfo();
+                this.renderDailyQuests();
             }
             
             updateEnergyBar() {
